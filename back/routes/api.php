@@ -18,3 +18,5 @@ use Illuminate\Support\Facades\Route;
 //    return $request->user();
 //});
 Route::get('/dancers',[App\Http\Controllers\DancerController::class, 'index']);
+//dancersUpdate
+Route::post('/dancersUpdate',[App\Http\Controllers\DancerController::class, 'update']);

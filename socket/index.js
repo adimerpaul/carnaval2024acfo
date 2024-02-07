@@ -7,12 +7,12 @@ const io = require("socket.io")(httpServer, {
         origin: "*",
     },
 });
-// app.get('/', (req, res) => {
-//     res.sendFile(__dirname + '/index.html');
-// });
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/index.html');
+});
 io.on("connection", (socket) => {
-    socket.on('setChange', (msg) => {
-        io.emit('setChange', msg);
+    socket.on('dance', (msg) => {
+        io.emit('dance', msg);
     });
 });
 

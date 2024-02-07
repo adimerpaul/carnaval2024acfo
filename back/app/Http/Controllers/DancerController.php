@@ -10,4 +10,15 @@ class DancerController extends Controller{
     public function index(){
         return Dancer::all();
     }
+    public function update(UpdateDancerRequest $request){
+        $dancer = Dancer::find($request->id);
+        $dancer->lat = $request->lat;
+        $dancer->lng = $request->lng;
+        $dancer->save();
+        $dancers = Dancer::all();
+        $data = ['username' => 'my-user'];
+        $dancersArray = $dancers->toArray();
+        $this->soketIO('dance', $dancersArray);
+        return $dancer;
+    }
 }

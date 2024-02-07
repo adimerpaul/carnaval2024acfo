@@ -1,6 +1,13 @@
 <template>
   <q-page>
-    <l-map v-model:zoom="zoom" :center="[-17.965, -67.1125]" :use-global-leaflet="false" style="height: calc(100vh - 107px)" :min-zoom="12">
+    <l-map
+      v-model:zoom="zoom"
+      :center="[-17.965, -67.1125]"
+      :use-global-leaflet="false"
+      style="height: calc(100vh - 107px)"
+      :min-zoom="12"
+      @click="handleMapClick"
+    >
       <l-tile-layer
         v-for="tileProvider in tileProviders"
         :key="tileProvider.name"
@@ -12,7 +19,7 @@
       />
       <l-marker
         v-for="dancer in dancers"
-        :lat-lng="[-17.965, -67.1125]"
+        :lat-lng="[parseFloat(dancer.lat), parseFloat(dancer.lng)]"
         :key="dancer.id"
         @dragend="onDragEnd(dancer, $event)"
         :draggable="true"
@@ -59,6 +66,8 @@
       <l-control position="topleft">
 <!--        <q-toggle v-model="enviarDatos" label="Enviar datos" dense />-->
         <q-img src="logo.png" width="100px" />
+        <br>
+        <q-btn dense size="12px" label="Actualizar" color="primary" icon="refresh" @click="getDancers" :loading="loading" no-caps/>
       </l-control>
     </l-map>
     <q-dialog v-model="dialogDancer">
@@ -106,6 +115,40 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
+    <q-dialog v-model="dialogChangeDancer">
+      <q-card class="q-pa-md">
+        <q-card-section class="row items-center q-pa-none q-ma-none">
+          <div class="q-ml-md">
+            <div>Seleccionar bailarín</div>
+          </div>
+          <q-space/>
+          <q-btn flat color="primary" icon="close" v-close-popup />
+        </q-card-section>
+        <q-card-section class="q-pa-none">
+          <q-item>
+            <q-item-section>
+              <q-item-label>
+                <q-select
+                  v-model="dancerUpdate"
+                  :options="dancers"
+                  label="Bailarín"
+                  dense outlined
+                  emit-value
+                  map-options
+                  option-label="name"
+                  option-value="id"
+                />
+<!--                <pre>{{dancer}}</pre>-->
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn color="primary" label="Cambiar" @click="updateDancers" :loading="loading" />
+          <q-btn flat color="primary" label="Cerrar" v-close-popup :loading="loading" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -142,15 +185,20 @@ export default {
   data () {
     return {
       socket: io(urlSocket),
+      loading: false,
       tileProviders,
       visibleMap: true,
       zoom: 15,
       enviarDatos: false,
       url,
       dialogDancer: false,
+      dialogChangeDancer: false,
       showDancer: true,
       dancers: [],
       dancer: {},
+      dancerUpdate: '',
+      latUpdate: 0,
+      lngUpdate: 0,
       polyline: {
         opacity: 0.5,
         weight: 10,
@@ -161,23 +209,26 @@ export default {
         this.dancer = dancer
         this.dialogDancer = true
       },
-      cambioVelocidad (value) {
-        if (value < 0) {
-          value = 1
-        }
-        console.log('cambioVelocidad', value)
-        // this.socket.emit('cambioVelocidad', { id: this.dancer.id, velocity: value })
-      },
+      // cambioVelocidad (value) {
+      //   if (value < 0) {
+      //     value = 1
+      //   }
+      //   console.log('cambioVelocidad', value)
+      //   // this.socket.emit('cambioVelocidad', { id: this.dancer.id, velocity: value })
+      // },
       onDragStart (dancer, event) {
         this.showDancer = false
         console.log('onDragStart', dancer)
       },
       onDragEnd (dancer, event) {
-        this.showDancer = true
-        const marker = event.target
-        const position = marker.getLatLng()
-        console.log('onDragEnd', position)
-        this.socket.emit('cambioPosicion', { id: dancer.id, latitud: position.lat, longitud: position.lng })
+        api.post('dancersUpdate', { id: dancer.id, lat: event.target._latlng.lat, lng: event.target._latlng.lng }).then((res) => {
+          console.log('res', res)
+        })
+        // this.showDancer = true
+        // const marker = event.target
+        // const position = marker.getLatLng()
+        // console.log('onDragEnd', position)
+        // this.socket.emit('cambioPosicion', { id: dancer.id, latitud: position.lat, longitud: position.lng })
       }
       // moveMarker (dancer) {
       //   const currentPosition = dancer.position
@@ -202,9 +253,51 @@ export default {
       // }
     }
   },
+  methods: {
+    handleMapClick (event) {
+      this.dancerUpdate = ''
+      this.latUpdate = event.latlng.lat
+      this.lngUpdate = event.latlng.lng
+      this.dialogChangeDancer = true
+    },
+    async updateDancers () {
+      if (this.dancerUpdate === '') {
+        this.$q.notify({
+          color: 'negative',
+          position: 'top',
+          message: 'Seleccione un bailarín',
+          icon: 'report_problem'
+        })
+        return false
+      }
+      this.loading = await true
+      await api.post('dancersUpdate', { id: this.dancerUpdate, lat: this.latUpdate, lng: this.lngUpdate }).then((res) => {
+        // console.log('res', res)
+        this.dialogChangeDancer = false
+      }).finally(() => {
+        this.loading = false
+      })
+    },
+    getDancers () {
+      this.loading = true
+      api.get('dancers').then((res) => {
+        this.dancers = res.data
+      }).finally(() => {
+        this.loading = false
+      })
+    }
+  },
   async mounted () {
-    await api.get('dancers').then((res) => {
-      this.dancers = res.data
+    this.getDancers()
+    this.socket.on('dance', (data) => {
+      console.log('data', data)
+      data.forEach((dancer) => {
+        const findDancer = this.dancers.find((d) => d.id === dancer.id)
+        if (findDancer) {
+          findDancer.lat = dancer.lat
+          findDancer.lng = dancer.lng
+        }
+      })
     })
     // this.dancers.forEach((dancer) => {
     //   if (dancer.position !== 0) {

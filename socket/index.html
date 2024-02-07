@@ -31,12 +31,12 @@
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         if (input.value) {
-            socket.emit('setChange', input.value);
+            socket.emit('dance', input.value);
             input.value = '';
         }
     });
 
-    socket.on('setChange', function(msg) {
+    socket.on('dance', function(msg) {
         var item = document.createElement('li');
         item.textContent = msg;
         messages.appendChild(item);
