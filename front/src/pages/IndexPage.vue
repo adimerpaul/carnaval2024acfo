@@ -73,18 +73,19 @@
     <q-dialog v-model="dialogDancer">
       <q-card class="q-pa-md">
         <q-card-section class="row items-center q-pa-none q-ma-none">
-          <q-avatar size="50px">
+          <q-avatar size="40px">
             <img :src="'data:image/png;base64,' + dancer.image" />
           </q-avatar>
-          <div class="q-ml-md">
-            <div>{{ dancer.name }}</div>
-          </div>
           <q-space/>
           <q-btn flat color="primary" icon="close" v-close-popup />
+<!--          <pre>{{dancer}}</pre>-->
         </q-card-section>
         <q-card-section class="q-pa-none">
           <q-item>
             <q-item-section>
+              <div class="q-ml-md text-subtitle1 text-center" >
+                <div>{{ dancer.name }}</div>
+              </div>
               <q-item-label>
                 <iframe
                   width="100%"
@@ -96,16 +97,16 @@
                   allowfullscreen
                 ></iframe>
                 <div class="text-caption text-capitalize">
-                  {{ dancer.description}}
+                  {{ dancer.history}}
                 </div>
-                <div class="row">
-                  <div class="col-3 flex flex-center">
-                    Velocidad:
-                  </div>
-                  <div class="col-3">
-                    <q-input model-value="0" type="number" v-model="dancer.velocity" dense outlined @update:model-value="cambioVelocidad" />
-                  </div>
-                </div>
+<!--                <div class="row">-->
+<!--                  <div class="col-3 flex flex-center">-->
+<!--                    Velocidad:-->
+<!--                  </div>-->
+<!--                  <div class="col-3">-->
+<!--                    <q-input model-value="0" type="number" v-model="dancer.velocity" dense outlined @update:model-value="cambioVelocidad" />-->
+<!--                  </div>-->
+<!--                </div>-->
               </q-item-label>
             </q-item-section>
           </q-item>
