@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('imagen');
             $table->string('lat')->default(0);
             $table->string('lng')->default(0);
-            $table->string('video')->nullable()->default('https://www.youtube.com/embed/mrpMfKnfun8');
+            $table->string('video')->nullable()->default('W4s7d_4Erwo');
             $table->text('history')->nullable()->default('No hay historia');
             $table->integer('positionSaturday')->nullable();
             $table->integer('positionSunday')->nullable();

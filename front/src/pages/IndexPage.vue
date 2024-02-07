@@ -27,13 +27,18 @@
         name="marker"
       >
         <l-icon
-          :icon-anchor="[16, 37]"
           class-name="someExtraClass"
         >
+<!--          <div class="headline">-->
+<!--            {{ dancer.name }}-->
+            <img
+              :src="`data:image/png;base64,${dancer.image}`"
+              style="width: 40px; height: 40px;"
+            />
           <div class="headline">
             {{ dancer.name }}
           </div>
-          <img :src="`${url}../uploads/${dancer.imagen}`" style="width: 40px; height: 40px;" />
+<!--          </div>-->
         </l-icon>
       </l-marker>
 <!--      <l-marker-->
@@ -64,10 +69,33 @@
         :weight="polyline.weight"
       />
       <l-control position="topleft">
-<!--        <q-toggle v-model="enviarDatos" label="Enviar datos" dense />-->
         <q-img src="logo.png" width="100px" />
         <br>
+        <br>
         <q-btn dense size="12px" label="Actualizar" color="primary" icon="refresh" @click="getDancers" :loading="loading" no-caps/>
+        <br>
+        <br>
+        <q-btn dense :disable="true" size="12px" :label="`Vistas 45`" color="primary" icon="visibility" no-caps/>
+      </l-control>
+      <l-control position="topright">
+        <div>Compartir</div>
+        <ShareNetwork
+          v-for="network in networks"
+          :network="network.network"
+          :key="network.network"
+          :style="{backgroundColor: network.color}"
+          :url="sharing.url"
+          :title="sharing.title"
+          :description="sharing.description"
+          :quote="sharing.quote"
+          :hashtags="sharing.hashtags"
+          :twitterUser="sharing.twitterUser"
+        >
+<!--          <i :class="network.icon"></i>-->
+<!--          <span>{{ network.name }}</span>-->
+          <q-btn  size="xs" :icon="network.icon" :color="network.color" />
+          <br>
+        </ShareNetwork>
       </l-control>
     </l-map>
     <q-dialog v-model="dialogDancer">
@@ -87,15 +115,15 @@
                 <div>{{ dancer.name }}</div>
               </div>
               <q-item-label>
-                <iframe
-                  width="100%"
-                  height="200"
-                  :src="`https://www.youtube.com/embed/${dancer.video}?`"
-                  title="SPOT CARNAVAL DE ORURO 2024"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowfullscreen
-                ></iframe>
+<!--                <iframe-->
+<!--                  width="100%"-->
+<!--                  height="200"-->
+<!--                  :src="`https://www.youtube.com/embed/${dancer.video}?`"-->
+<!--                  title="SPOT CARNAVAL DE ORURO 2024"-->
+<!--                  frameborder="0"-->
+<!--                  allowfullscreen-->
+<!--                ></iframe>-->
+                <iframe width="100%" height="500" :src="`https://www.youtube.com/embed/${dancer.video}`" title="PRIMER CONVITE Rumbo al CARNAVAL de ORURO 2024 (1/2)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                 <div class="text-caption text-capitalize">
                   {{ dancer.history}}
                 </div>
@@ -196,6 +224,7 @@ export default {
       dialogChangeDancer: false,
       showDancer: true,
       dancers: [],
+      dancerAll: [],
       dancer: {},
       dancerUpdate: '',
       latUpdate: 0,
@@ -206,6 +235,23 @@ export default {
         latlngs: dataLine,
         color: 'orange'
       },
+      sharing: {
+        url: 'https://rutaacfo.com/',
+        title: 'Ruta del Carnaval de Oruro 2024',
+        description: 'Vive la experiencia del Carnaval de Oruro 2024',
+        quote: 'Vive la experiencia del Carnaval de Oruro 2024',
+        hashtags: 'Ruta,Carnaval,Oruro',
+        twitterUser: 'adimer'
+      },
+      networks: [
+        { network: 'email', name: 'Email', icon: 'far fah fa-lg fa-envelope', color: '#d02727' },
+        { network: 'facebook', name: 'Facebook', icon: 'fab fah fa-lg fa-facebook-f', color: '#1877f2' },
+        { network: 'skype', name: 'Skype', icon: 'fab fah fa-lg fa-skype', color: '#00aff0' },
+        { network: 'sms', name: 'SMS', icon: 'far fah fa-lg fa-comment-dots', color: '#333333' },
+        { network: 'telegram', name: 'Telegram', icon: 'fab fah fa-lg fa-telegram-plane', color: '#0088cc' },
+        { network: 'twitter', name: 'Twitter', icon: 'fab fah fa-lg fa-twitter', color: '#1da1f2' },
+        { network: 'whatsapp', name: 'Whatsapp', icon: 'fab fah fa-lg fa-whatsapp', color: '#25d366' }
+      ],
       showDance (dancer) {
         this.dancer = dancer
         this.dialogDancer = true
@@ -222,8 +268,11 @@ export default {
         console.log('onDragStart', dancer)
       },
       onDragEnd (dancer, event) {
+        this.loading = true
         api.post('dancersUpdate', { id: dancer.id, lat: event.target._latlng.lat, lng: event.target._latlng.lng }).then((res) => {
           console.log('res', res)
+        }).finally(() => {
+          this.loading = false
         })
         // this.showDancer = true
         // const marker = event.target
@@ -283,6 +332,7 @@ export default {
       this.loading = true
       api.get('dancers').then((res) => {
         this.dancers = res.data
+        this.dancerAll = res.data
       }).finally(() => {
         this.loading = false
       })
@@ -290,16 +340,19 @@ export default {
   },
   async mounted () {
     this.getDancers()
-    this.socket.on('dance', (data) => {
-      console.log('data', data)
-      data.forEach((dancer) => {
-        const findDancer = this.dancers.find((d) => d.id === dancer.id)
-        if (findDancer) {
-          findDancer.lat = dancer.lat
-          findDancer.lng = dancer.lng
-        }
+    if (this.$store.swSocket) {
+      this.socket.on('dance', (data) => {
+        console.log('data', data)
+        data.forEach((dancer) => {
+          const findDancer = this.dancers.find((d) => d.id === dancer.id)
+          if (findDancer) {
+            findDancer.lat = dancer.lat
+            findDancer.lng = dancer.lng
+          }
+        })
       })
-    })
+      this.$store.swSocket = false
+    }
     // this.dancers.forEach((dancer) => {
     //   if (dancer.position !== 0) {
     //     this.moveMarker(dancer)
@@ -316,8 +369,8 @@ export default {
   //border-radius: 0 20px 20px 20px;
   //box-shadow: 5px 3px 10px rgba(0, 0, 0, 0.2);
   text-align: center;
-  width: auto !important;
-  height: auto !important;
+  //width: auto !important;
+  //height: -50px !important;
   //margin: 0 !important;
 }
 .headline {
@@ -328,8 +381,8 @@ export default {
   color: #000;
   width: 100px;
   line-height: 1em;
-  background: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  background: rgba(255,152,0, 0.6);
+  box-shadow: 0 0 5px rgba(255,152,0, 0.3);
   border-radius: 5px;
 }
 </style>
