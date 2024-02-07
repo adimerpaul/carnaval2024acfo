@@ -1,6 +1,6 @@
-# Carnaval 2023 (front)
+# Carnaval 2024 (carnaval)
 
-Carnaval de oruro 2023
+Carnaval 2024
 
 ## Install the dependencies
 ```bash
@@ -20,6 +20,14 @@ quasar dev
 yarn lint
 # or
 npm run lint
+```
+
+
+### Format the files
+```bash
+yarn format
+# or
+npm run format
 ```
 
 

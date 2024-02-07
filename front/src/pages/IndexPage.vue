@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <l-map v-model:zoom="zoom" :center="[-17.969000, -67.112000]" :use-global-leaflet="false" style="height: calc(100vh - 107px)" :min-zoom="12">
+    <l-map v-model:zoom="zoom" :center="[-17.965, -67.1125]" :use-global-leaflet="false" style="height: calc(100vh - 107px)" :min-zoom="12">
       <l-tile-layer
         v-for="tileProvider in tileProviders"
         :key="tileProvider.name"
@@ -12,20 +12,39 @@
       />
       <l-marker
         v-for="dancer in dancers"
-        :lat-lng="[dancer.latitud, dancer.longitud]"
-        style="background: red"
+        :lat-lng="[-17.965, -67.1125]"
         :key="dancer.id"
         @dragend="onDragEnd(dancer, $event)"
-        @dragstart="onDragStart(dancer, $event)"
         :draggable="true"
         @click="showDance(dancer)"
+        name="marker"
       >
         <l-icon
-          :icon-url="'data:image/png;base64,' + dancer.image"
-          :icon-size="[40, 40]"
-          :icon-anchor="[16, 40]"
-        />
+          :icon-anchor="[16, 37]"
+          class-name="someExtraClass"
+        >
+          <div class="headline">
+            {{ dancer.name }}
+          </div>
+          <img :src="`${url}../uploads/${dancer.imagen}`" style="width: 40px; height: 40px;" />
+        </l-icon>
       </l-marker>
+<!--      <l-marker-->
+<!--        v-for="dancer in dancers"-->
+<!--        :lat-lng="[-17.965, -67.1125]"-->
+<!--        :key="dancer.id"-->
+<!--        @dragend="onDragEnd(dancer, $event)"-->
+<!--        :draggable="true"-->
+<!--        @click="showDance(dancer)"-->
+<!--        name="marker"-->
+<!--      >-->
+<!--      <l-icon-->
+<!--        :icon-url="`${url}../uploads/${dancer.imagen}`"-->
+<!--        :icon-size="[40, 40]"-->
+<!--        :icon-anchor="[16, 40]"-->
+<!--      >-->
+<!--      </l-icon>-->
+<!--      </l-marker>-->
       <l-control-layers
         position="topright"
         :collapsed="true"
@@ -39,7 +58,7 @@
       />
       <l-control position="topleft">
 <!--        <q-toggle v-model="enviarDatos" label="Enviar datos" dense />-->
-        <q-img src="http://localhost:9000/logo.png" width="100px" />
+        <q-img src="logo.png" width="100px" />
       </l-control>
     </l-map>
     <q-dialog v-model="dialogDancer">
@@ -94,6 +113,8 @@
 import 'leaflet/dist/leaflet.css'
 import { LMap, LTileLayer, LControl, LControlLayers, LPolyline, LMarker, LIcon } from '@vue-leaflet/vue-leaflet'
 import dataLine from 'src/pages/line.json'
+import { io } from 'socket.io-client'
+import { api, url, urlSocket } from 'boot/axios'
 const tileProviders = [
   {
     name: 'Mapa',
@@ -108,8 +129,6 @@ const tileProviders = [
     attribution: '&copy; Google Maps'
   }
 ]
-import { io } from 'socket.io-client'
-import { api, url, urlSocket } from 'boot/axios'
 export default {
   components: {
     LIcon,
@@ -159,39 +178,64 @@ export default {
         const position = marker.getLatLng()
         console.log('onDragEnd', position)
         this.socket.emit('cambioPosicion', { id: dancer.id, latitud: position.lat, longitud: position.lng })
-      },
-      moveMarker (dancer) {
-        const currentPosition = dancer.position
-        console.log('currentPosition', currentPosition + 'dance', dancer.name)
-        const nextLatLng = dataLine[currentPosition + 1]
-        if (nextLatLng) {
-          if (this.showDancer) {
-            dancer.latitud = nextLatLng[0]
-            dancer.longitud = nextLatLng[1]
-          }
-          dancer.position += 1
-          // Llama a moveMarker recursivamente después de la duración calculada
-          setTimeout(() => {
-            this.moveMarker(dancer)
-          }, (dancer.velocity) * 1000)
-        } else {
-          dancer.position = 0
-          dancer.latitud = 0
-          dancer.longitud = 0
-          // this.moveMarker(dancer)
-        }
       }
+      // moveMarker (dancer) {
+      //   const currentPosition = dancer.position
+      //   console.log('currentPosition', currentPosition + 'dance', dancer.name)
+      //   const nextLatLng = dataLine[currentPosition + 1]
+      //   if (nextLatLng) {
+      //     if (this.showDancer) {
+      //       dancer.latitud = nextLatLng[0]
+      //       dancer.longitud = nextLatLng[1]
+      //     }
+      //     dancer.position += 1
+      //     // Llama a moveMarker recursivamente después de la duración calculada
+      //     setTimeout(() => {
+      //       this.moveMarker(dancer)
+      //     }, (dancer.velocity) * 1000)
+      //   } else {
+      //     dancer.position = 0
+      //     dancer.latitud = 0
+      //     dancer.longitud = 0
+      //     // this.moveMarker(dancer)
+      //   }
+      // }
     }
   },
   async mounted () {
     await api.get('dancers').then((res) => {
       this.dancers = res.data
     })
-    this.dancers.forEach((dancer) => {
-      if (dancer.position !== 0) {
-        this.moveMarker(dancer)
-      }
-    })
+    // this.dancers.forEach((dancer) => {
+    //   if (dancer.position !== 0) {
+    //     this.moveMarker(dancer)
+    //   }
+    // })
   }
 }
 </script>
+<style>
+.someExtraClass {
+  //background-color: aqua;
+  //padding: 10px;
+  //border: 1px solid #333;
+  //border-radius: 0 20px 20px 20px;
+  //box-shadow: 5px 3px 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: auto !important;
+  height: auto !important;
+  //margin: 0 !important;
+}
+.headline {
+  font-size: 0.8em;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  color: #000;
+  width: 100px;
+  line-height: 1em;
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+}
+</style>
