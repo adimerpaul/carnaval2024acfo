@@ -27,7 +27,7 @@
 <script>
 import { api } from 'boot/axios'
 export default {
-  name: `LoginPage`,
+  name: 'LoginPage',
   data () {
     return {
       nickname: '',

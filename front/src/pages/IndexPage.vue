@@ -384,15 +384,7 @@ export default {
 </script>
 <style>
 .someExtraClass {
-  //background-color: aqua;
-  //padding: 10px;
-  //border: 1px solid #333;
-  //border-radius: 0 20px 20px 20px;
-  //box-shadow: 5px 3px 10px rgba(0, 0, 0, 0.2);
   text-align: center;
-  //width: auto !important;
-  //height: -50px !important;
-  //margin: 0 !important;
 }
 .headline {
   font-size: 0.8em;
