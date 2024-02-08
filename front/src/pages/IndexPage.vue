@@ -342,6 +342,13 @@ export default {
         this.dancerAll = res.data
       }).finally(() => {
         this.loading = false
+      }).catch((error) => {
+        this.$q.notify({
+          color: 'negative',
+          position: 'top',
+          message: error.response.data.message,
+          icon: 'report_problem'
+        })
       })
     },
     getCogs () {
@@ -364,13 +371,7 @@ export default {
       this.socket.on('dance', (data) => {
         // console.log('data', data)
         this.postCog()
-        data.forEach((dancer) => {
-          const findDancer = this.dancers.find((d) => d.id === dancer.id)
-          if (findDancer) {
-            findDancer.lat = dancer.lat
-            findDancer.lng = dancer.lng
-          }
-        })
+        this.dancers = data
       })
       this.$store.swSocket = false
     }
