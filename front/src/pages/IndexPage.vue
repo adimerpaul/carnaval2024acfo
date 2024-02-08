@@ -331,6 +331,7 @@ export default {
     }
   },
   async mounted () {
+    alert('Para ver los bailarines debe estar logueado')
     this.postCog()
     this.getDancers()
     if (this.$store.swSocket) {
