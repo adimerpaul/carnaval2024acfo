@@ -17,46 +17,49 @@
         :attribution="tileProvider.attribution"
         layer-type="base"
       />
-      <l-marker
-        v-for="dancer in dancers"
-        :lat-lng="[parseFloat(dancer.lat), parseFloat(dancer.lng)]"
-        :key="dancer.id"
-        @dragend="onDragEnd(dancer, $event)"
-        :draggable="true"
-        @click="showDance(dancer)"
-        name="marker"
-      >
-        <l-icon
-          class-name="someExtraClass"
+      <template v-if="$store.isLogin">
+        <l-marker
+          v-for="dancer in dancers"
+          :lat-lng="[parseFloat(dancer.lat), parseFloat(dancer.lng)]"
+          :key="dancer.id"
+          @dragend="onDragEnd(dancer, $event)"
+          :draggable="true"
+          @click="showDance(dancer)"
+          name="marker"
         >
-<!--          <div class="headline">-->
-<!--            {{ dancer.name }}-->
+          <l-icon
+            class-name="someExtraClass"
+          >
             <img
               :src="`data:image/png;base64,${dancer.image}`"
               style="width: 40px; height: 40px;"
             />
-          <div class="headline">
-            {{ dancer.name }}
-          </div>
-<!--          </div>-->
-        </l-icon>
-      </l-marker>
-<!--      <l-marker-->
-<!--        v-for="dancer in dancers"-->
-<!--        :lat-lng="[-17.965, -67.1125]"-->
-<!--        :key="dancer.id"-->
-<!--        @dragend="onDragEnd(dancer, $event)"-->
-<!--        :draggable="true"-->
-<!--        @click="showDance(dancer)"-->
-<!--        name="marker"-->
-<!--      >-->
-<!--      <l-icon-->
-<!--        :icon-url="`${url}../uploads/${dancer.imagen}`"-->
-<!--        :icon-size="[40, 40]"-->
-<!--        :icon-anchor="[16, 40]"-->
-<!--      >-->
-<!--      </l-icon>-->
-<!--      </l-marker>-->
+            <div class="headline">
+              {{ dancer.name }}
+            </div>
+          </l-icon>
+        </l-marker>
+      </template>
+      <template v-else>
+        <l-marker
+          v-for="dancer in dancers"
+          :lat-lng="[parseFloat(dancer.lat), parseFloat(dancer.lng)]"
+          :key="dancer.id"
+          name="marker"
+        >
+          <l-icon
+            class-name="someExtraClass"
+          >
+            <img
+              :src="`data:image/png;base64,${dancer.image}`"
+              style="width: 40px; height: 40px;"
+            />
+            <div class="headline">
+              {{ dancer.name }}
+            </div>
+          </l-icon>
+        </l-marker>
+      </template>
       <l-control-layers
         position="topright"
         :collapsed="true"
@@ -306,6 +309,9 @@ export default {
   },
   methods: {
     handleMapClick (event) {
+      if (!this.$store.isLogin) {
+        return false
+      }
       this.dancerUpdate = ''
       this.latUpdate = event.latlng.lat
       this.lngUpdate = event.latlng.lng

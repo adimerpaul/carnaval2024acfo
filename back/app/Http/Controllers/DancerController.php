@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Dancer;
 use App\Http\Requests\StoreDancerRequest;
 use App\Http\Requests\UpdateDancerRequest;
+use App\Models\User;
 
 class DancerController extends Controller{
     public function index(){
@@ -34,6 +35,19 @@ class DancerController extends Controller{
         $data = ['username' => 'my-user'];
         $dancersArray = $dancers->toArray();
         $this->soketIO('dance', $dancersArray);
+        $user = User::where('id', $request->user()->id)->first();
+        error_log('user: ' . json_encode($user));
+        $timeNew = date('Y-m-d H:i:s');
+        $timeOld = $user->access;
+        $user->access = date('Y-m-d H:i:s');
+        $user->time = $this->timeCalculate($timeNew, $timeOld);
+        $user->save();
         return $dancer;
+    }
+    public function timeCalculate($timeNew, $timeOld){
+        $timeNew = strtotime($timeNew);
+        $timeOld = strtotime($timeOld);
+        $time = $timeNew - $timeOld;
+        return $time;
     }
 }

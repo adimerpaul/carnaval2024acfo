@@ -104,6 +104,16 @@ export default {
           this.$router.push('/loginacfo')
         }).catch(error => {
           console.log(error)
+          localStorage.removeItem('tokenCarnaval')
+          localStorage.removeItem('user')
+          this.$store.isLogin = false
+          this.$router.push('/loginacfo')
+          this.$q.notify({
+            color: 'negative',
+            position: 'top',
+            message: 'Error al cerrar sesión',
+            icon: 'report_problem'
+          })
         }).finally(() => {
           this.loading = false
         })

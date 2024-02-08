@@ -19,11 +19,12 @@ use Illuminate\Support\Facades\Route;
 //});
 Route::get('/dancers',[App\Http\Controllers\DancerController::class, 'index']);
 //dancersUpdate
-Route::post('/dancersUpdate',[App\Http\Controllers\DancerController::class, 'update']);
+
 Route::get('/cogs',[App\Http\Controllers\CogController::class, 'index']);
 Route::post('/cogs',[App\Http\Controllers\CogController::class, 'update']);
 Route::post('/login',[App\Http\Controllers\UserController::class, 'login']);
 
 Route::group(['middleware'=>'auth:sanctum'],function (){
     Route::post('/logout',[App\Http\Controllers\UserController::class, 'logout']);
+    Route::post('/dancersUpdate',[App\Http\Controllers\DancerController::class, 'update']);
 });
