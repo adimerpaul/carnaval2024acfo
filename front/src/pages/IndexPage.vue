@@ -259,6 +259,19 @@ export default {
       ]
     }
   },
+  mounted () {
+    alert('Para ver los bailarines debe estar logueado')
+    this.postCog()
+    alert('zzzzzzzzzzzzzzzzzzzzzzzzzz')
+    this.getDancers()
+    if (this.$store.swSocket) {
+      this.socket.on('dance', (data) => {
+        this.postCog()
+        this.dancers = data
+      })
+      this.$store.swSocket = false
+    }
+  },
   methods: {
     showDance (dancer) {
       this.dancer = dancer
@@ -329,19 +342,6 @@ export default {
         alert(this.cog)
         // this.getCogs()
       })
-    }
-  },
-  async mounted () {
-    alert('Para ver los bailarines debe estar logueado')
-    this.postCog()
-    alert('zzzzzzzzzzzzzzzzzzzzzzzzzz')
-    this.getDancers()
-    if (this.$store.swSocket) {
-      this.socket.on('dance', (data) => {
-        this.postCog()
-        this.dancers = data
-      })
-      this.$store.swSocket = false
     }
   }
 }
