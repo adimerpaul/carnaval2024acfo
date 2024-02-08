@@ -170,6 +170,8 @@
                   map-options
                   option-label="name"
                   option-value="id"
+                  @filter="filterFn"
+                  use-input
                 />
 <!--                <pre>{{dancer}}</pre>-->
               </q-item-label>
@@ -279,6 +281,21 @@ export default {
     }
   },
   methods: {
+    filterFn (val, update, abort) {
+      // console.log('val', val)
+      // console.log('update', update)
+      // console.log('abort', abort)
+      if (val === '') {
+        update(() => {
+          this.dancers = this.dancerAll
+        })
+        return
+      }
+      const needle = val.toLowerCase()
+      update(() => {
+        this.dancers = this.dancerAll.filter((v) => v.name.toLowerCase().indexOf(needle) > -1)
+      })
+    },
     showDance (dancer) {
       this.dancer = dancer
       this.dialogDancer = true
