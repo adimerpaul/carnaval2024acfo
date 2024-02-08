@@ -75,7 +75,7 @@
         <q-btn dense size="12px" label="Actualizar" color="primary" icon="refresh" @click="getDancers" :loading="loading" no-caps/>
         <br>
         <br>
-        <q-btn dense :disable="true" size="12px" :label="`Vistas 45`" color="primary" icon="visibility" no-caps/>
+        <q-btn dense :disable="true" size="12px" :label="`Vistas ${cog}`" color="primary" icon="visibility" no-caps/>
       </l-control>
       <l-control position="topright">
         <div>Compartir</div>
@@ -235,6 +235,7 @@ export default {
         latlngs: dataLine,
         color: 'orange'
       },
+      cog: 0,
       sharing: {
         url: 'https://rutaacfo.com/',
         title: 'Ruta del Carnaval de Oruro 2024',
@@ -336,13 +337,27 @@ export default {
       }).finally(() => {
         this.loading = false
       })
+    },
+    getCogs () {
+      api.get('cogs').then((res) => {
+        this.cog = res.data.value
+      })
+    },
+    postCog () {
+      api.post('cogs').then((res) => {
+        this.cog = res.data.value
+        this.getCogs()
+      })
     }
   },
   async mounted () {
+    // this.getCogs()
+    this.postCog()
     this.getDancers()
     if (this.$store.swSocket) {
       this.socket.on('dance', (data) => {
-        console.log('data', data)
+        // console.log('data', data)
+        this.postCog()
         data.forEach((dancer) => {
           const findDancer = this.dancers.find((d) => d.id === dancer.id)
           if (findDancer) {
