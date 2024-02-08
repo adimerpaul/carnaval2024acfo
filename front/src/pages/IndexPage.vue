@@ -1,187 +1,187 @@
 <template>
   <q-page>
-<!--    <l-map-->
-<!--      v-model:zoom="zoom"-->
-<!--      :center="[-17.965, -67.1125]"-->
-<!--      :use-global-leaflet="false"-->
-<!--      style="height: calc(100vh - 107px)"-->
-<!--      :min-zoom="12"-->
-<!--      @click="handleMapClick"-->
-<!--    >-->
-<!--      <l-tile-layer-->
-<!--        v-for="tileProvider in tileProviders"-->
-<!--        :key="tileProvider.name"-->
-<!--        :name="tileProvider.name"-->
-<!--        :visible="tileProvider.visible"-->
-<!--        :url="tileProvider.url"-->
-<!--        :attribution="tileProvider.attribution"-->
-<!--        layer-type="base"-->
-<!--      />-->
-<!--      <template v-if="$store.isLogin">-->
-<!--        <l-marker-->
-<!--          v-for="dancer in dancers"-->
-<!--          :lat-lng="[parseFloat(dancer.lat), parseFloat(dancer.lng)]"-->
-<!--          :key="dancer.id"-->
-<!--          @dragend="onDragEnd(dancer, $event)"-->
-<!--          :draggable="true"-->
-<!--          @click="showDance(dancer)"-->
-<!--          name="marker"-->
-<!--        >-->
-<!--          <l-icon-->
-<!--            class-name="someExtraClass"-->
-<!--          >-->
-<!--            <img-->
-<!--              :src="`${url}../uploads/${dancer.imagen}`"-->
-<!--              style="width: 40px; height: 40px;"-->
-<!--            />-->
-<!--            <div class="headline">-->
-<!--              {{ dancer.name }}-->
-<!--            </div>-->
-<!--          </l-icon>-->
-<!--        </l-marker>-->
-<!--      </template>-->
-<!--      <template v-else>-->
-<!--        <l-marker-->
-<!--          v-for="dancer in dancers"-->
-<!--          :lat-lng="[parseFloat(dancer.lat), parseFloat(dancer.lng)]"-->
-<!--          :key="dancer.id"-->
-<!--          @click="showDance(dancer)"-->
-<!--          name="marker"-->
-<!--        >-->
-<!--          <l-icon-->
-<!--            class-name="someExtraClass"-->
-<!--          >-->
-<!--            <img-->
-<!--              :src="`${url}../uploads/${dancer.imagen}`"-->
-<!--              style="width: 40px; height: 40px;"-->
-<!--            />-->
-<!--            <div class="headline">-->
-<!--              {{ dancer.name }}-->
-<!--            </div>-->
-<!--          </l-icon>-->
-<!--        </l-marker>-->
-<!--      </template>-->
-<!--      <l-control-layers-->
-<!--        position="topright"-->
-<!--        :collapsed="true"-->
-<!--        :sort-layers="true"-->
-<!--      />-->
-<!--      <l-polyline-->
-<!--        :lat-lngs="polyline.latlngs"-->
-<!--        :color="polyline.color"-->
-<!--        :opacity="polyline.opacity"-->
-<!--        :weight="polyline.weight"-->
-<!--      />-->
-<!--      <l-control position="topleft">-->
-<!--        <q-img src="logo.png" width="100px" />-->
-<!--        <br>-->
-<!--        <br>-->
-<!--        <q-btn dense size="12px" label="Actualizar" color="primary" icon="refresh" @click="getDancers" :loading="loading" no-caps/>-->
-<!--        <br>-->
-<!--        <br>-->
-<!--        <q-btn dense :disable="true" size="12px" :label="`Vistas ${cog}`" color="primary" icon="visibility" no-caps/>-->
-<!--      </l-control>-->
-<!--      <l-control position="topright">-->
-<!--        <div>Compartir</div>-->
-<!--        <ShareNetwork-->
-<!--          v-for="network in networks"-->
-<!--          :network="network.network"-->
-<!--          :key="network.network"-->
-<!--          :style="{backgroundColor: network.color}"-->
-<!--          :url="sharing.url"-->
-<!--          :title="sharing.title"-->
-<!--          :description="sharing.description"-->
-<!--          :quote="sharing.quote"-->
-<!--          :hashtags="sharing.hashtags"-->
-<!--          :twitterUser="sharing.twitterUser"-->
-<!--        >-->
-<!--&lt;!&ndash;          <i :class="network.icon"></i>&ndash;&gt;-->
-<!--&lt;!&ndash;          <span>{{ network.name }}</span>&ndash;&gt;-->
-<!--          <q-btn  size="xs" :icon="network.icon" :color="network.color" />-->
-<!--          <br>-->
-<!--        </ShareNetwork>-->
-<!--      </l-control>-->
-<!--    </l-map>-->
-<!--    <q-dialog v-model="dialogDancer">-->
-<!--      <q-card class="q-pa-md">-->
-<!--        <q-card-section class="row items-center q-pa-none q-ma-none">-->
-<!--          <q-avatar size="40px">-->
-<!--            <img :src="'data:image/png;base64,' + dancer.image" />-->
-<!--          </q-avatar>-->
-<!--          <q-space/>-->
-<!--          <q-btn flat color="primary" icon="close" v-close-popup />-->
-<!--&lt;!&ndash;          <pre>{{dancer}}</pre>&ndash;&gt;-->
-<!--        </q-card-section>-->
-<!--        <q-card-section class="q-pa-none">-->
-<!--          <q-item>-->
-<!--            <q-item-section>-->
-<!--              <div class="q-ml-md text-subtitle1 text-center" >-->
-<!--                <div>{{ dancer.name }}</div>-->
-<!--              </div>-->
-<!--              <q-item-label>-->
-<!--&lt;!&ndash;                <iframe&ndash;&gt;-->
-<!--&lt;!&ndash;                  width="100%"&ndash;&gt;-->
-<!--&lt;!&ndash;                  height="200"&ndash;&gt;-->
-<!--&lt;!&ndash;                  :src="`https://www.youtube.com/embed/${dancer.video}?`"&ndash;&gt;-->
-<!--&lt;!&ndash;                  title="SPOT CARNAVAL DE ORURO 2024"&ndash;&gt;-->
-<!--&lt;!&ndash;                  frameborder="0"&ndash;&gt;-->
-<!--&lt;!&ndash;                  allowfullscreen&ndash;&gt;-->
-<!--&lt;!&ndash;                ></iframe>&ndash;&gt;-->
-<!--                <iframe width="100%" height="500" :src="`https://www.youtube.com/embed/${dancer.video}`" title="PRIMER CONVITE Rumbo al CARNAVAL de ORURO 2024 (1/2)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>-->
-<!--                <div class="text-caption text-capitalize">-->
-<!--                  {{ dancer.history}}-->
+    <l-map
+      v-model:zoom="zoom"
+      :center="[-17.965, -67.1125]"
+      :use-global-leaflet="false"
+      style="height: calc(100vh - 107px)"
+      :min-zoom="12"
+      @click="handleMapClick"
+    >
+      <l-tile-layer
+        v-for="tileProvider in tileProviders"
+        :key="tileProvider.name"
+        :name="tileProvider.name"
+        :visible="tileProvider.visible"
+        :url="tileProvider.url"
+        :attribution="tileProvider.attribution"
+        layer-type="base"
+      />
+      <template v-if="$store.isLogin">
+        <l-marker
+          v-for="dancer in dancers"
+          :lat-lng="[parseFloat(dancer.lat), parseFloat(dancer.lng)]"
+          :key="dancer.id"
+          @dragend="onDragEnd(dancer, $event)"
+          :draggable="true"
+          @click="showDance(dancer)"
+          name="marker"
+        >
+          <l-icon
+            class-name="someExtraClass"
+          >
+            <img
+              :src="`${url}../uploads/${dancer.imagen}`"
+              style="width: 40px; height: 40px;"
+            />
+            <div class="headline">
+              {{ dancer.name }}
+            </div>
+          </l-icon>
+        </l-marker>
+      </template>
+      <template v-else>
+        <l-marker
+          v-for="dancer in dancers"
+          :lat-lng="[parseFloat(dancer.lat), parseFloat(dancer.lng)]"
+          :key="dancer.id"
+          @click="showDance(dancer)"
+          name="marker"
+        >
+          <l-icon
+            class-name="someExtraClass"
+          >
+            <img
+              :src="`${url}../uploads/${dancer.imagen}`"
+              style="width: 40px; height: 40px;"
+            />
+            <div class="headline">
+              {{ dancer.name }}
+            </div>
+          </l-icon>
+        </l-marker>
+      </template>
+      <l-control-layers
+        position="topright"
+        :collapsed="true"
+        :sort-layers="true"
+      />
+      <l-polyline
+        :lat-lngs="polyline.latlngs"
+        :color="polyline.color"
+        :opacity="polyline.opacity"
+        :weight="polyline.weight"
+      />
+      <l-control position="topleft">
+        <q-img src="logo.png" width="100px" />
+        <br>
+        <br>
+        <q-btn dense size="12px" label="Actualizar" color="primary" icon="refresh" @click="getDancers" :loading="loading" no-caps/>
+        <br>
+        <br>
+        <q-btn dense :disable="true" size="12px" :label="`Vistas ${cog}`" color="primary" icon="visibility" no-caps/>
+      </l-control>
+      <l-control position="topright">
+        <div>Compartir</div>
+        <ShareNetwork
+          v-for="network in networks"
+          :network="network.network"
+          :key="network.network"
+          :style="{backgroundColor: network.color}"
+          :url="sharing.url"
+          :title="sharing.title"
+          :description="sharing.description"
+          :quote="sharing.quote"
+          :hashtags="sharing.hashtags"
+          :twitterUser="sharing.twitterUser"
+        >
+<!--          <i :class="network.icon"></i>-->
+<!--          <span>{{ network.name }}</span>-->
+          <q-btn  size="xs" :icon="network.icon" :color="network.color" />
+          <br>
+        </ShareNetwork>
+      </l-control>
+    </l-map>
+    <q-dialog v-model="dialogDancer">
+      <q-card class="q-pa-md">
+        <q-card-section class="row items-center q-pa-none q-ma-none">
+          <q-avatar size="40px">
+            <img :src="'data:image/png;base64,' + dancer.image" />
+          </q-avatar>
+          <q-space/>
+          <q-btn flat color="primary" icon="close" v-close-popup />
+<!--          <pre>{{dancer}}</pre>-->
+        </q-card-section>
+        <q-card-section class="q-pa-none">
+          <q-item>
+            <q-item-section>
+              <div class="q-ml-md text-subtitle1 text-center" >
+                <div>{{ dancer.name }}</div>
+              </div>
+              <q-item-label>
+<!--                <iframe-->
+<!--                  width="100%"-->
+<!--                  height="200"-->
+<!--                  :src="`https://www.youtube.com/embed/${dancer.video}?`"-->
+<!--                  title="SPOT CARNAVAL DE ORURO 2024"-->
+<!--                  frameborder="0"-->
+<!--                  allowfullscreen-->
+<!--                ></iframe>-->
+                <iframe width="100%" height="500" :src="`https://www.youtube.com/embed/${dancer.video}`" title="PRIMER CONVITE Rumbo al CARNAVAL de ORURO 2024 (1/2)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <div class="text-caption text-capitalize">
+                  {{ dancer.history}}
+                </div>
+<!--                <div class="row">-->
+<!--                  <div class="col-3 flex flex-center">-->
+<!--                    Velocidad:-->
+<!--                  </div>-->
+<!--                  <div class="col-3">-->
+<!--                    <q-input model-value="0" type="number" v-model="dancer.velocity" dense outlined @update:model-value="cambioVelocidad" />-->
+<!--                  </div>-->
 <!--                </div>-->
-<!--&lt;!&ndash;                <div class="row">&ndash;&gt;-->
-<!--&lt;!&ndash;                  <div class="col-3 flex flex-center">&ndash;&gt;-->
-<!--&lt;!&ndash;                    Velocidad:&ndash;&gt;-->
-<!--&lt;!&ndash;                  </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                  <div class="col-3">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <q-input model-value="0" type="number" v-model="dancer.velocity" dense outlined @update:model-value="cambioVelocidad" />&ndash;&gt;-->
-<!--&lt;!&ndash;                  </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-<!--              </q-item-label>-->
-<!--            </q-item-section>-->
-<!--          </q-item>-->
-<!--        </q-card-section>-->
-<!--        <q-card-actions align="right">-->
-<!--          <q-btn flat color="primary" label="Cerrar" v-close-popup />-->
-<!--        </q-card-actions>-->
-<!--      </q-card>-->
-<!--    </q-dialog>-->
-<!--    <q-dialog v-model="dialogChangeDancer">-->
-<!--      <q-card class="q-pa-md">-->
-<!--        <q-card-section class="row items-center q-pa-none q-ma-none">-->
-<!--          <div class="q-ml-md">-->
-<!--            <div>Seleccionar bailarín</div>-->
-<!--          </div>-->
-<!--          <q-space/>-->
-<!--          <q-btn flat color="primary" icon="close" v-close-popup />-->
-<!--        </q-card-section>-->
-<!--        <q-card-section class="q-pa-none">-->
-<!--          <q-item>-->
-<!--            <q-item-section>-->
-<!--              <q-item-label>-->
-<!--                <q-select-->
-<!--                  v-model="dancerUpdate"-->
-<!--                  :options="dancers"-->
-<!--                  label="Bailarín"-->
-<!--                  dense outlined-->
-<!--                  emit-value-->
-<!--                  map-options-->
-<!--                  option-label="name"-->
-<!--                  option-value="id"-->
-<!--                />-->
-<!--&lt;!&ndash;                <pre>{{dancer}}</pre>&ndash;&gt;-->
-<!--              </q-item-label>-->
-<!--            </q-item-section>-->
-<!--          </q-item>-->
-<!--        </q-card-section>-->
-<!--        <q-card-actions align="right">-->
-<!--          <q-btn color="primary" label="Cambiar" @click="updateDancers" :loading="loading" />-->
-<!--          <q-btn flat color="primary" label="Cerrar" v-close-popup :loading="loading" />-->
-<!--        </q-card-actions>-->
-<!--      </q-card>-->
-<!--    </q-dialog>-->
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn flat color="primary" label="Cerrar" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+    <q-dialog v-model="dialogChangeDancer">
+      <q-card class="q-pa-md">
+        <q-card-section class="row items-center q-pa-none q-ma-none">
+          <div class="q-ml-md">
+            <div>Seleccionar bailarín</div>
+          </div>
+          <q-space/>
+          <q-btn flat color="primary" icon="close" v-close-popup />
+        </q-card-section>
+        <q-card-section class="q-pa-none">
+          <q-item>
+            <q-item-section>
+              <q-item-label>
+                <q-select
+                  v-model="dancerUpdate"
+                  :options="dancers"
+                  label="Bailarín"
+                  dense outlined
+                  emit-value
+                  map-options
+                  option-label="name"
+                  option-value="id"
+                />
+<!--                <pre>{{dancer}}</pre>-->
+              </q-item-label>
+            </q-item-section>
+          </q-item>
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn color="primary" label="Cambiar" @click="updateDancers" :loading="loading" />
+          <q-btn flat color="primary" label="Cerrar" v-close-popup :loading="loading" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -207,13 +207,13 @@ const tileProviders = [
 ]
 export default {
   components: {
-    // LIcon,
-    // LMap,
-    // LTileLayer,
-    // LControl,
-    // LControlLayers,
-    // LPolyline,
-    // LMarker
+    LIcon,
+    LMap,
+    LTileLayer,
+    LControl,
+    LControlLayers,
+    LPolyline,
+    LMarker
   },
   data () {
     return {
@@ -260,9 +260,9 @@ export default {
     }
   },
   mounted () {
-    alert('aaaaaaaaaaaaa')
+    // alert('aaaaaaaaaaaaa')
     this.postCog()
-    alert('zzzzzzzzzzzzzzzzzzzzzzzzzz')
+    // alert('zzzzzzzzzzzzzzzzzzzzzzzzzz')
     this.getDancers()
     if (this.$store.swSocket) {
       this.socket.on('dance', (data) => {
