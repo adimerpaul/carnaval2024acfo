@@ -304,7 +304,7 @@ export default {
     },
     getDancers () {
       this.loading = true
-      api.get('dancers').then((res) => {
+      this.$axios.get('dancers').then((res) => {
         this.dancers = res.data
         this.dancerAll = res.data
       }).finally(() => {
@@ -324,7 +324,7 @@ export default {
       })
     },
     postCog () {
-      api.post('cogs').then((res) => {
+      this.$axios.post('cogs').then((res) => {
         this.cog = res.data.value
         alert(this.cog)
         // this.getCogs()
