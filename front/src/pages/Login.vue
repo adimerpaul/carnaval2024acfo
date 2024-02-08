@@ -5,6 +5,7 @@
       <div class="col-12 col-md-6">
         <div class="q-pa-md">
           <q-card class="q-pa-md">
+            <q-form @submit="login">
             <q-card-section class="q-pa-md">
               <div class="text-h6">Iniciar sesión</div>
               <q-input class="q-ma-xs" outlined v-model="nickname" label="Nickname" />
@@ -13,9 +14,10 @@
                   <q-icon :name="visiblePassword ? 'visibility_off' : 'visibility'" @click="visiblePassword = !visiblePassword" />
                 </template>
               </q-input>
-              <q-btn color="primary" label="Ingresar" @click="login" class="full-width q-ma-xs" :loading="loading" />
+              <q-btn color="primary" label="Ingresar" type="submit" class="full-width q-ma-xs" :loading="loading" />
               <q-btn color="primary" label="Principal" @click="$router.push('/')" class="full-width q-ma-xs" outline />
             </q-card-section>
+            </q-form>
           </q-card>
         </div>
       </div>
