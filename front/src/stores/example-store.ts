@@ -3,7 +3,9 @@ import { defineStore } from 'pinia'
 export const useCounterStore = defineStore('counter', {
   state: () => ({
     counter: 0,
-    swSocket: true
+    swSocket: true,
+    isLogin: !!localStorage.getItem('tokenCarnaval'),
+    user: JSON.parse(localStorage.getItem('user') || '{}')
   }),
   getters: {
     doubleCount: (state) => state.counter * 2

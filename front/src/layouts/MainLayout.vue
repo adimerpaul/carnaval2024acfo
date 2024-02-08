@@ -12,7 +12,8 @@
         />
         <q-space />
         <div class="text-subtitle2">
-          Carnaval Oruro 2024
+          {{ $store.isLogin ? $store.user.nickname : 'Carnaval de Oruro 2024' }}
+<!--          <pre>{{$store.user}}</pre>-->
         </div>
 <!--        <q-toolbar-title class="">-->
 <!--          Carnaval 2024-->
@@ -24,7 +25,17 @@
           round
           icon="person"
         />
-<!--        <div>Quasar v{{ $q.version }}</div>-->
+        <q-btn
+          @click="logout"
+          v-if="$store.isLogin"
+          :loading="loading"
+          dense
+          round
+          color="red"
+          class="text-bold"
+          icon="logout"
+        />
+<!--        <pre>{{$store.isLogin}}</pre>-->
       </q-toolbar>
     </q-header>
 
@@ -62,73 +73,47 @@
   </q-layout>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
-
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-]
-
-export default defineComponent({
+<script>
+import { api } from 'boot/axios'
+export default {
   name: 'MainLayout',
-
-  components: {
-    // EssentialLink
-  },
-
-  setup () {
-    const leftDrawerOpen = ref(false)
-
+  data () {
     return {
-      // essentialLinks: linksList,
-      leftDrawerOpen,
-      tab: ref(''),
-      toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      }
+      leftDrawerOpen: false,
+      tab: '',
+      loading: false
+    }
+  },
+  methods: {
+    toggleLeftDrawer () {
+      this.leftDrawerOpen = !this.leftDrawerOpen
+    },
+    logout () {
+      this.$q.dialog({
+        title: 'Salir',
+        message: '¿Está seguro que desea salir?',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        this.loading = true
+        api.post('/logout').then(response => {
+          localStorage.removeItem('tokenCarnaval')
+          localStorage.removeItem('user')
+          this.$store.isLogin = false
+          this.$store.user = '{}'
+          this.$router.push('/loginacfo')
+        }).catch(error => {
+          console.log(error)
+        }).finally(() => {
+          this.loading = false
+        })
+      })
+      // this.loading = true
+      // localStorage.removeItem('tokenCarnaval')
+      // localStorage.removeItem('user')
+      // this.$store.isLogin = false
+      // this.$router.push('/login')
     }
   }
-})
+}
 </script>
