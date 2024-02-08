@@ -51,12 +51,12 @@
     <q-page-container>
       <router-view />
     </q-page-container>
-    <q-footer bordered class="bg-grey-1 text-primary" ac>
+    <q-footer bordered class="bg-grey-1 text-primary" style="z-index: 1000;">
       <q-tabs no-caps active-color="white" indicator-color="" active-bg-color="red" class="text-grey-8" v-model="tab" dense>
-        <q-tab name="" label="Ruta" :icon="tab === '' ? 'map' : 'o_map'" />
-        <q-tab name="videos" label="Videos" :icon="tab === 'videos' ? 'videocam' : 'o_videocam'" />
-        <q-tab name="apoyos" label="Apoyos" :icon="tab === 'apoyos' ? 'favorite' : 'favorite_border'" />
-        <q-tab name="roles" label="Rol" :icon="tab === 'roles' ? 'people' : 'o_people'" />
+        <q-route-tab name="" label="Ruta" :icon="tab === '' ? 'map' : 'o_map'" to="/" />
+        <q-route-tab name="videos" label="Videos" :icon="tab === 'videos' ? 'videocam' : 'o_videocam'" to="/videos" />
+        <q-route-tab name="apoyos" label="Acfo" :icon="tab === 'apoyos' ? 'favorite' : 'favorite_border'" to="/acfo" />
+        <q-route-tab name="roles" label="Rol" :icon="tab === 'roles' ? 'people' : 'o_people'" to="/rol" />
       </q-tabs>
     </q-footer>
   </q-layout>
