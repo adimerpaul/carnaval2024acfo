@@ -45,6 +45,7 @@
           v-for="dancer in dancers"
           :lat-lng="[parseFloat(dancer.lat), parseFloat(dancer.lng)]"
           :key="dancer.id"
+          @click="showDance(dancer)"
           name="marker"
         >
           <l-icon
@@ -255,59 +256,26 @@ export default {
         { network: 'telegram', name: 'Telegram', icon: 'fab fah fa-lg fa-telegram-plane', color: '#0088cc' },
         { network: 'twitter', name: 'Twitter', icon: 'fab fah fa-lg fa-twitter', color: '#1da1f2' },
         { network: 'whatsapp', name: 'Whatsapp', icon: 'fab fah fa-lg fa-whatsapp', color: '#25d366' }
-      ],
-      showDance (dancer) {
-        this.dancer = dancer
-        this.dialogDancer = true
-      },
-      // cambioVelocidad (value) {
-      //   if (value < 0) {
-      //     value = 1
-      //   }
-      //   console.log('cambioVelocidad', value)
-      //   // this.socket.emit('cambioVelocidad', { id: this.dancer.id, velocity: value })
-      // },
-      onDragStart (dancer, event) {
-        this.showDancer = false
-        console.log('onDragStart', dancer)
-      },
-      onDragEnd (dancer, event) {
-        this.loading = true
-        api.post('dancersUpdate', { id: dancer.id, lat: event.target._latlng.lat, lng: event.target._latlng.lng }).then((res) => {
-          console.log('res', res)
-        }).finally(() => {
-          this.loading = false
-        })
-        // this.showDancer = true
-        // const marker = event.target
-        // const position = marker.getLatLng()
-        // console.log('onDragEnd', position)
-        // this.socket.emit('cambioPosicion', { id: dancer.id, latitud: position.lat, longitud: position.lng })
-      }
-      // moveMarker (dancer) {
-      //   const currentPosition = dancer.position
-      //   console.log('currentPosition', currentPosition + 'dance', dancer.name)
-      //   const nextLatLng = dataLine[currentPosition + 1]
-      //   if (nextLatLng) {
-      //     if (this.showDancer) {
-      //       dancer.latitud = nextLatLng[0]
-      //       dancer.longitud = nextLatLng[1]
-      //     }
-      //     dancer.position += 1
-      //     // Llama a moveMarker recursivamente después de la duración calculada
-      //     setTimeout(() => {
-      //       this.moveMarker(dancer)
-      //     }, (dancer.velocity) * 1000)
-      //   } else {
-      //     dancer.position = 0
-      //     dancer.latitud = 0
-      //     dancer.longitud = 0
-      //     // this.moveMarker(dancer)
-      //   }
-      // }
+      ]
     }
   },
   methods: {
+    showDance (dancer) {
+      this.dancer = dancer
+      this.dialogDancer = true
+    },
+    onDragStart (dancer, event) {
+      this.showDancer = false
+      console.log('onDragStart', dancer)
+    },
+    onDragEnd (dancer, event) {
+      this.loading = true
+      api.post('dancersUpdate', { id: dancer.id, lat: event.target._latlng.lat, lng: event.target._latlng.lng }).then((res) => {
+        console.log('res', res)
+      }).finally(() => {
+        this.loading = false
+      })
+    },
     handleMapClick (event) {
       if (!this.$store.isLogin) {
         return false
@@ -329,7 +297,6 @@ export default {
       }
       this.loading = await true
       await api.post('dancersUpdate', { id: this.dancerUpdate, lat: this.latUpdate, lng: this.lngUpdate }).then((res) => {
-        // console.log('res', res)
         this.dialogChangeDancer = false
       }).finally(() => {
         this.loading = false
@@ -364,22 +331,15 @@ export default {
     }
   },
   async mounted () {
-    // this.getCogs()
     this.postCog()
     this.getDancers()
     if (this.$store.swSocket) {
       this.socket.on('dance', (data) => {
-        // console.log('data', data)
         this.postCog()
         this.dancers = data
       })
       this.$store.swSocket = false
     }
-    // this.dancers.forEach((dancer) => {
-    //   if (dancer.position !== 0) {
-    //     this.moveMarker(dancer)
-    //   }
-    // })
   }
 }
 </script>
