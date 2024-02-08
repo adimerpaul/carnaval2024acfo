@@ -267,7 +267,13 @@ export default {
     if (this.$store.swSocket) {
       this.socket.on('dance', (data) => {
         this.postCog()
-        this.dancers = data
+        data.forEach((dancer) => {
+          const findDancer = this.dancers.find((d) => d.id === dancer.id)
+          if (findDancer) {
+            findDancer.lat = dancer.lat
+            findDancer.lng = dancer.lng
+          }
+        })
       })
       this.$store.swSocket = false
     }
