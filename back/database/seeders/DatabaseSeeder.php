@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         // ]);
         $this->call([
             DancerSeeder::class,
-//            SetSeeder::class,
+            CogSeeder::class,
         ]);
     }
 }
