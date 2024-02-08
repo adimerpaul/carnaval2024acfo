@@ -31,7 +31,7 @@
             class-name="someExtraClass"
           >
             <img
-              :src="`${url}../uploads/${dancer.imagen}`"
+              :src="`data:image/png;base64,${dancer.image}`"
               style="width: 40px; height: 40px;"
             />
             <div class="headline">
@@ -52,7 +52,7 @@
             class-name="someExtraClass"
           >
             <img
-              :src="`${url}../uploads/${dancer.imagen}`"
+              :src="`data:image/png;base64,${dancer.image}`"
               style="width: 40px; height: 40px;"
             />
             <div class="headline">
@@ -339,8 +339,8 @@ export default {
     postCog () {
       this.$axios.post('cogs').then((res) => {
         this.cog = res.data.value
-        alert(this.cog)
-        // this.getCogs()
+        // alert(this.cog)
+        this.getCogs()
       })
     }
   }
