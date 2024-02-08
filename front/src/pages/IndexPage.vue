@@ -260,7 +260,7 @@ export default {
     }
   },
   mounted () {
-    alert('Para ver los bailarines debe estar logueado')
+    alert('aaaaaaaaaaaaa')
     this.postCog()
     alert('zzzzzzzzzzzzzzzzzzzzzzzzzz')
     this.getDancers()
