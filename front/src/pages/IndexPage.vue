@@ -31,7 +31,7 @@
             class-name="someExtraClass"
           >
             <img
-              :src="`data:image/png;base64,${dancer.image}`"
+              :src="`${url}../uploads/${dancer.imagen}`"
               style="width: 40px; height: 40px;"
             />
             <div class="headline">
@@ -51,7 +51,7 @@
             class-name="someExtraClass"
           >
             <img
-              :src="`data:image/png;base64,${dancer.image}`"
+              :src="`${url}../uploads/${dancer.imagen}`"
               style="width: 40px; height: 40px;"
             />
             <div class="headline">
