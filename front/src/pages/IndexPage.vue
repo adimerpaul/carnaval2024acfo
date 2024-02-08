@@ -172,8 +172,9 @@
                   option-value="id"
                   @filter="filterFn"
                   use-input
+                  input-debounce="0"
                 />
-<!--                <pre>{{dancer}}</pre>-->
+<!--                <pre>{{dancerUpdate}}</pre>-->
               </q-item-label>
             </q-item-section>
           </q-item>
