@@ -326,13 +326,14 @@ export default {
     postCog () {
       api.post('cogs').then((res) => {
         this.cog = res.data.value
-        this.getCogs()
+        // this.getCogs()
       })
     }
   },
   async mounted () {
     alert('Para ver los bailarines debe estar logueado')
     this.postCog()
+    alert('zzzzzzzzzzzzzzzzzzzzzzzzzz')
     this.getDancers()
     if (this.$store.swSocket) {
       this.socket.on('dance', (data) => {
