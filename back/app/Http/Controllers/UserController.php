@@ -25,4 +25,18 @@ class UserController extends Controller
         $request->user()->currentAccessToken()->delete();
         return response()->json(['message' => 'Sesión cerrada']);
     }
+    public function users()
+    {
+        $users = User::all();
+        $users->each(function($user){
+            $user->time = $this->timeCalculate(date('Y-m-d H:i:s'), $user->access);
+        });
+        return $users;
+    }
+    public function timeCalculate($timeNew, $timeOld){
+        $timeNew = strtotime($timeNew);
+        $timeOld = strtotime($timeOld);
+        $time = $timeNew - $timeOld;
+        return $time;
+    }
 }

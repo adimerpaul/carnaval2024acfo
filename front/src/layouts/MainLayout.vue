@@ -86,7 +86,9 @@ export default {
   },
   methods: {
     toggleLeftDrawer () {
-      this.leftDrawerOpen = !this.leftDrawerOpen
+      if (this.$store.isLogin) {
+        this.$router.push('/usuarios')
+      }
     },
     logout () {
       this.$q.dialog({

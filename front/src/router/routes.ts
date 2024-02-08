@@ -9,7 +9,8 @@ const routes: RouteRecordRaw[] = [
       { path: 'loginacfo', component: () => import('pages/Login.vue') },
       { path: 'videos', component: () => import('pages/Videos.vue') },
       { path: 'acfo', component: () => import('pages/Acfo.vue') },
-      { path: 'rol', component: () => import('pages/Rol.vue') }
+      { path: 'rol', component: () => import('pages/Rol.vue') },
+      { path: 'usuarios', component: () => import('pages/User.vue') }
     ]
   },
 
