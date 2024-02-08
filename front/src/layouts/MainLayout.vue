@@ -98,7 +98,7 @@ export default {
         persistent: true
       }).onOk(() => {
         this.loading = true
-        api.post('/logout').then(response => {
+        api.post('/logout').then(() => {
           localStorage.removeItem('tokenCarnaval')
           localStorage.removeItem('user')
           this.$store.isLogin = false

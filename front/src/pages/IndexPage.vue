@@ -264,10 +264,10 @@ export default {
       this.dancer = dancer
       this.dialogDancer = true
     },
-    onDragStart (dancer, event) {
-      this.showDancer = false
-      console.log('onDragStart', dancer)
-    },
+    // onDragStart (dancer, event) {
+    //   this.showDancer = false
+    //   // console.log('onDragStart', dancer)
+    // },
     onDragEnd (dancer, event) {
       this.loading = true
       api.post('dancersUpdate', { id: dancer.id, lat: event.target._latlng.lat, lng: event.target._latlng.lng }).then((res) => {
@@ -296,7 +296,7 @@ export default {
         return false
       }
       this.loading = await true
-      await api.post('dancersUpdate', { id: this.dancerUpdate, lat: this.latUpdate, lng: this.lngUpdate }).then((res) => {
+      await api.post('dancersUpdate', { id: this.dancerUpdate, lat: this.latUpdate, lng: this.lngUpdate }).then(() => {
         this.dialogChangeDancer = false
       }).finally(() => {
         this.loading = false
@@ -326,6 +326,7 @@ export default {
     postCog () {
       api.post('cogs').then((res) => {
         this.cog = res.data.value
+        alert(this.cog)
         // this.getCogs()
       })
     }
