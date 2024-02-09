@@ -144,8 +144,8 @@
           </q-item>
         </q-card-section>
         <q-card-actions align="right">
-          <q-btn flat color="red" label="Ocultar" @click="dancepocition0(dancer)" v-if="$store.isLogin" />
-          <q-btn flat color="primary" label="Cerrar" v-close-popup />
+          <q-btn flat :loading="loading" color="red" label="Ocultar" @click="dancepocition0(dancer)" v-if="$store.isLogin" />
+          <q-btn flat :loading="loading" color="primary" label="Cerrar" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
