@@ -144,6 +144,7 @@
           </q-item>
         </q-card-section>
         <q-card-actions align="right">
+          <q-btn flat color="red" label="Ocultar" @click="dancepocition0(dancer)" v-if="$store.isLogin" />
           <q-btn flat color="primary" label="Cerrar" v-close-popup />
         </q-card-actions>
       </q-card>
@@ -321,6 +322,14 @@ export default {
       this.latUpdate = event.latlng.lat
       this.lngUpdate = event.latlng.lng
       this.dialogChangeDancer = true
+    },
+    dancepocition0 (dancer) {
+      this.loading = true
+      api.post('dancersUpdate', { id: dancer.id, lat: 0, lng: 0 }).then(() => {
+        this.dialogDancer = false
+      }).finally(() => {
+        this.loading = false
+      })
     },
     async updateDancers () {
       if (this.dancerUpdate === '') {
