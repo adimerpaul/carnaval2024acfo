@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cog;
 use App\Models\Dancer;
 use App\Http\Requests\StoreDancerRequest;
 use App\Http\Requests\UpdateDancerRequest;
 use App\Models\User;
+use function Laravel\Prompts\error;
 
 class DancerController extends Controller{
     public function index(){
@@ -24,6 +26,9 @@ class DancerController extends Controller{
                 $dancer->image = $base64Image;
             }
         });
+        $cog = Cog::find(1);
+        $cog->value = $cog->value+1;
+        $cog->save();
         return $dancers;
     }
     public function update(UpdateDancerRequest $request){
