@@ -352,6 +352,7 @@ export default {
       this.$axios.get('dancers').then((res) => {
         this.dancers = res.data
         this.dancerAll = res.data
+        this.getCogs()
       }).finally(() => {
         this.loading = false
       }).catch((error) => {
