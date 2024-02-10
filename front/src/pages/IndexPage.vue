@@ -73,8 +73,7 @@
         :weight="polyline.weight"
       />
       <l-control position="topleft">
-        <q-img src="logo.png" width="100px" />
-        <br>
+        <q-img src="logoacfo.png" width="100px" />
         <br>
         <q-btn dense size="12px" label="Actualizar" color="primary" icon="refresh" @click="getDancers" :loading="loading" no-caps/>
         <br>
