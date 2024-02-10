@@ -32,52 +32,52 @@ class DancerController extends Controller{
         $dancer->lng = $request->lng;
         $dancer->save();
 
-        $dancers = Dancer::all();
-        $dancers->each(function($dancer){
-            // Obtener la ruta de la imagen desde el directorio public
-            $imagePath = public_path('uploads/' . $dancer->imagen);
-
-            // Verificar si la imagen existe
-            if (file_exists($imagePath)) {
-                // Leer el contenido de la imagen y codificarlo en base64
-                $imageData = file_get_contents($imagePath);
-                $base64Image = base64_encode($imageData);
-
-                // Establecer el atributo 'image' con la imagen en base64
-                $dancer->image = $base64Image;
-            }
-        });
-        $dancersArray = $dancers->toArray();
+        $dancers = Dancer::where('lat', '!=', 0)->where('lng', '!=', 0)->get();
+//        $dancers->each(function($dancer){
+//            // Obtener la ruta de la imagen desde el directorio public
+//            $imagePath = public_path('uploads/' . $dancer->imagen);
+//
+//            // Verificar si la imagen existe
+//            if (file_exists($imagePath)) {
+//                // Leer el contenido de la imagen y codificarlo en base64
+//                $imageData = file_get_contents($imagePath);
+//                $base64Image = base64_encode($imageData);
+//
+//                // Establecer el atributo 'image' con la imagen en base64
+//                $dancer->image = $base64Image;
+//            }
+//        });
+//        $dancersArray = $dancers->toArray();
 
         $data = ['username' => 'my-user'];
 
 
-        $this->soketIO('dance', $dancersArray);
+        $this->soketIO('dance', $dancers->toArray());
 
 
 
 
         $user = User::where('id', $request->user()->id)->first();
-        error_log('user: ' . json_encode($user));
-        $timeNew = date('Y-m-d H:i:s');
-        $timeOld = $user->access;
+//        error_log('user: ' . json_encode($user));
+//        $timeNew = date('Y-m-d H:i:s');
+//        $timeOld = $user->access;
         $user->access = date('Y-m-d H:i:s');
-        $user->time = $this->timeCalculate($timeNew, $timeOld);
+//        $user->time = $this->timeCalculate($timeNew, $timeOld);
         $user->save();
-        $dancers->each(function($dancer){
-            // Obtener la ruta de la imagen desde el directorio public
-            $imagePath = public_path('uploads/' . $dancer->imagen);
-
-            // Verificar si la imagen existe
-            if (file_exists($imagePath)) {
-                // Leer el contenido de la imagen y codificarlo en base64
-                $imageData = file_get_contents($imagePath);
-                $base64Image = base64_encode($imageData);
-
-                // Establecer el atributo 'image' con la imagen en base64
-                $dancer->image = $base64Image;
-            }
-        });
+//        $dancers->each(function($dancer){
+//            // Obtener la ruta de la imagen desde el directorio public
+//            $imagePath = public_path('uploads/' . $dancer->imagen);
+//
+//            // Verificar si la imagen existe
+//            if (file_exists($imagePath)) {
+//                // Leer el contenido de la imagen y codificarlo en base64
+//                $imageData = file_get_contents($imagePath);
+//                $base64Image = base64_encode($imageData);
+//
+//                // Establecer el atributo 'image' con la imagen en base64
+//                $dancer->image = $base64Image;
+//            }
+//        });
         return $dancer;
     }
     public function timeCalculate($timeNew, $timeOld){

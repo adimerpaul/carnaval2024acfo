@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Dancer extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'name',
+        'imagen',
+        'lat',
+        'lng',
+        'video',
+        'history',
+        'positionSaturday',
+        'positionSunday'
+    ];
 }
