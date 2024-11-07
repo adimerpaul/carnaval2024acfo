@@ -73,8 +73,9 @@
         :weight="polyline.weight"
       />
       <l-control position="topleft">
-        <div style="width: 100px; height: 100px; border-radius: 5px; background: #02052F; display: inline-block;">
-          <q-img src="logoCentral.png" width="100px" style="border-radius: 5px;" />
+<!--        <div style="width: 100px; height: 100px; border-radius: 5px; background: #02052F; display: inline-block;">-->
+        <div>
+          <q-img src="logofull.png" width="100px" style="border-radius: 5px;" />
         </div>
         <br>
         <q-btn dense size="12px" label="Actualizar" color="primary" icon="refresh" @click="getDancers" :loading="loading" no-caps/>
@@ -261,13 +262,12 @@ export default {
         { network: 'telegram', name: 'Telegram', icon: 'fab fah fa-lg fa-telegram-plane', color: '#0088cc' },
         { network: 'twitter', name: 'Twitter', icon: 'fab fah fa-lg fa-twitter', color: '#1da1f2' },
         { network: 'whatsapp', name: 'Whatsapp', icon: 'fab fah fa-lg fa-whatsapp', color: '#25d366' }
-      ]
+      ],
+      locations: []
     }
   },
   mounted () {
-    // alert('aaaaaaaaaaaaa')
     this.postCog()
-    // alert('zzzzzzzzzzzzzzzzzzzzzzzzzz')
     this.getDancers()
     if (this.$store.swSocket) {
       this.socket.on('dance', (data) => {
@@ -322,7 +322,9 @@ export default {
       this.dancerUpdate = ''
       this.latUpdate = event.latlng.lat
       this.lngUpdate = event.latlng.lng
-      this.dialogChangeDancer = true
+      this.locations.push([event.latlng.lat, event.latlng.lng])
+      console.log('locations', this.locations)
+      // this.dialogChangeDancer = true
     },
     dancepocition0 (dancer) {
       this.loading = true
