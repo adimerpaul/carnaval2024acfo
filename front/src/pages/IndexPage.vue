@@ -194,7 +194,7 @@
 <script>
 import 'leaflet/dist/leaflet.css'
 import { LMap, LTileLayer, LControl, LControlLayers, LPolyline, LMarker, LIcon } from '@vue-leaflet/vue-leaflet'
-import dataLine from 'src/pages/line.json'
+import dataLine from 'src/pages/lineConvite.json'
 import { io } from 'socket.io-client'
 import { api, url, urlSocket } from 'boot/axios'
 const tileProviders = [
@@ -322,9 +322,9 @@ export default {
       this.dancerUpdate = ''
       this.latUpdate = event.latlng.lat
       this.lngUpdate = event.latlng.lng
-      this.locations.push([event.latlng.lat, event.latlng.lng])
-      console.log('locations', this.locations)
-      // this.dialogChangeDancer = true
+      // this.locations.push([event.latlng.lat, event.latlng.lng])
+      // console.log(this.locations)
+      this.dialogChangeDancer = true
     },
     dancepocition0 (dancer) {
       this.loading = true
