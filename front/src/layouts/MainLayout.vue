@@ -66,7 +66,7 @@
       <q-tabs no-caps active-color="white" indicator-color="" active-bg-color="red" class="text-grey-8" v-model="tab" dense>
         <q-route-tab name="" label="Ruta" :icon="tab === '' ? 'map' : 'o_map'" to="/" />
         <q-route-tab name="videos" label="Videos" :icon="tab === 'videos' ? 'videocam' : 'o_videocam'" to="/videos" />
-        <q-route-tab name="apoyos" label="Acfo" :icon="tab === 'apoyos' ? 'favorite' : 'favorite_border'" to="/acfo" />
+        <q-route-tab name="apoyos" label="Central" :icon="tab === 'apoyos' ? 'favorite' : 'favorite_border'" to="/acfo" />
         <q-route-tab name="roles" label="Rol" :icon="tab === 'roles' ? 'people' : 'o_people'" to="/rol" />
       </q-tabs>
     </q-footer>

@@ -73,7 +73,9 @@
         :weight="polyline.weight"
       />
       <l-control position="topleft">
-        <q-img src="logoacfo.png" width="100px" />
+        <div style="width: 100px; height: 100px; border-radius: 5px; background: #02052F; display: inline-block;">
+          <q-img src="logoCentral.png" width="100px" style="border-radius: 5px;" />
+        </div>
         <br>
         <q-btn dense size="12px" label="Actualizar" color="primary" icon="refresh" @click="getDancers" :loading="loading" no-caps/>
         <br>
@@ -122,11 +124,11 @@
 <!--                  width="100%"-->
 <!--                  height="200"-->
 <!--                  :src="`https://www.youtube.com/embed/${dancer.video}?`"-->
-<!--                  title="SPOT CARNAVAL DE ORURO 2024"-->
+<!--                  title="SPOT CARNAVAL DE ORURO 2025"-->
 <!--                  frameborder="0"-->
 <!--                  allowfullscreen-->
 <!--                ></iframe>-->
-                <iframe width="100%" height="500" :src="`https://www.youtube.com/embed/${dancer.video}`" title="PRIMER CONVITE Rumbo al CARNAVAL de ORURO 2024 (1/2)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <iframe width="100%" height="500" :src="`https://www.youtube.com/embed/${dancer.video}`" title="PRIMER CONVITE Rumbo al CARNAVAL de ORURO 2025 (1/2)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                 <div class="text-caption text-capitalize">
                   {{ dancer.history}}
                 </div>
@@ -244,10 +246,10 @@ export default {
       },
       cog: 0,
       sharing: {
-        url: 'https://rutaacfo.com/',
-        title: 'Ruta del Carnaval de Oruro 2024',
-        description: 'Vive la experiencia del Carnaval de Oruro 2024',
-        quote: 'Vive la experiencia del Carnaval de Oruro 2024',
+        url: 'https://www.centenariocentral.com/',
+        title: 'Ruta del Carnaval de Oruro 2025',
+        description: 'Vive la experiencia del Carnaval de Oruro 2025',
+        quote: 'Vive la experiencia del Carnaval de Oruro 2025',
         hashtags: 'Ruta,Carnaval,Oruro',
         twitterUser: 'adimer'
       },
