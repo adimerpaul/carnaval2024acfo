@@ -73,9 +73,8 @@
         :weight="polyline.weight"
       />
       <l-control position="topleft">
-<!--        <div style="width: 100px; height: 100px; border-radius: 5px; background: #02052F; display: inline-block;">-->
-        <div>
-          <q-img src="logofull.png" width="100px" style="border-radius: 5px;" />
+        <div style="width: 100px; height: 100px; border-radius: 5px; background: #02052F; display: inline-block;">
+          <q-img src="logoCentral.png" width="100px" style="border-radius: 5px;" />
         </div>
         <br>
         <q-btn dense size="12px" label="Actualizar" color="primary" icon="refresh" @click="getDancers" :loading="loading" no-caps/>
