@@ -12,7 +12,7 @@
         />
         <q-space />
         <div class="text-subtitle2">
-          {{ $store.isLogin ? $store.user.nickname : 'Carnaval de Oruro 2024' }}
+          {{ $store.isLogin ? $store.user.nickname : 'Primer convite carnaval de Oruro 2025' }}
 <!--          <pre>{{$store.user}}</pre>-->
         </div>
 <!--        <q-toolbar-title class="">-->
