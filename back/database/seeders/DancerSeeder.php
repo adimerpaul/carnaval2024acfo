@@ -21,7 +21,7 @@ class DancerSeeder extends Seeder
             ['positionSaturday'=>'5','positionSunday'=>'14','name'=>'CENTRO TRADICIONAL NEGRITOS DE PAGADOR', 'imagen'=>'negritos.png'],
             ['positionSaturday'=>'6','positionSunday'=>'15','name'=>'CONJUNTO FOLKLORICO AHUATIRIS', 'imagen'=>'antawaras.png'],
             ['positionSaturday'=>'7','positionSunday'=>'16','name'=>'CONJUNTO WACA WACAS SAN AGUSTIN DERECHO', 'imagen'=>'wacatoncoris.png'],
-            ['positionSaturday'=>'8','positionSunday'=>'17','name'=>'FRATERNIDAD MORENADA CENTRAL ORURO', 'imagen'=>'morenada.png'],
+            ['positionSaturday'=>'8','positionSunday'=>'17','name'=>'FRATERNIDAD MORENADA CENTRAL ORURO', 'imagen'=>'morenadafull.png'],
             ['positionSaturday'=>'9','positionSunday'=>'18','name'=>'CONJUNTO CAPORALES INFANTILES IGNACIO LEON', 'imagen'=>'caporales.png'],
             ['positionSaturday'=>'10','positionSunday'=>'19','name'=>'CONJUNTO TRADICIONAL FOLKLORICO DIABLADA ORURO', 'imagen'=>'diablada.png'],
             ['positionSaturday'=>'11','positionSunday'=>'20','name'=>'CONJUNTO TRADICIONAL LLAMERADA ZONA NORTE ORURO', 'imagen'=>'llamerada.png'],
