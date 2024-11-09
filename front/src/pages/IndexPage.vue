@@ -77,7 +77,7 @@
           <q-img src="logoCentral.png" width="100px" style="border-radius: 5px;" />
         </div>
         <br>
-        <q-btn dense size="12px" label="Actualizar" color="primary" icon="refresh" @click="getDancers" :loading="loading" no-caps/>
+        <q-btn class="q-pa-md" dense size="14px" label="Actualizar" color="positive" icon="refresh" @click="getDancers" :loading="loading" no-caps/>
         <br>
         <br>
         <q-btn dense :disable="true" size="12px" :label="`Vistas ${cog}`" color="primary" icon="visibility" no-caps/>
@@ -283,7 +283,7 @@ export default {
     }
   },
   methods: {
-    filterFn (val, update, abort) {
+    filterFn (val, update) {
       // console.log('val', val)
       // console.log('update', update)
       // console.log('abort', abort)
