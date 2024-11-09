@@ -36,6 +36,7 @@ class DancerController extends Controller{
         $dancer->lat = $request->lat;
         $dancer->lng = $request->lng;
         $dancer->save();
+//        error_log('dancer: ' . json_encode($dancer));
 
         $dancers = Dancer::where('lat', '!=', 0)->where('lng', '!=', 0)->get();
 //        $dancers->each(function($dancer){
