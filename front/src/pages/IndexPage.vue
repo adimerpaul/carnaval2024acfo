@@ -77,7 +77,8 @@
           <q-img src="logoCentral.png" width="100px" style="border-radius: 5px;" />
         </div>
         <br>
-        <q-btn class="q-pa-md" dense size="14px" label="Actualizar" color="positive" icon="refresh" @click="getDancers" :loading="loading" no-caps/>
+        <br>
+        <q-btn class="q-pm-xs" dense size="16px" label="Actualizar" color="positive" icon="refresh" @click="getDancers" :loading="loading" no-caps/>
         <br>
         <br>
         <q-btn dense :disable="true" size="12px" :label="`Vistas ${cog}`" color="primary" icon="visibility" no-caps/>
