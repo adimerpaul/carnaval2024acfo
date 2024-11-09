@@ -24,6 +24,7 @@ class User extends Authenticatable
         'nickname',
         'time',
         'access',
+        'dancer_id',
     ];
 
     /**
@@ -35,6 +36,9 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+    function dancer(){
+        return $this->belongsTo(Dancer::class);
+    }
 
     /**
      * The attributes that should be cast.
