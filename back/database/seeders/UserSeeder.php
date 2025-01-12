@@ -132,6 +132,9 @@ class UserSeeder extends Seeder
             ['name' => 'ayllu', 'nickname' => 'ayllu', 'access' => now(), 'password' => bcrypt('ayllu'), 'dancer_id' => 50],
             ['name' => 'phujllay', 'nickname' => 'phujllay', 'access' => now(), 'password' => bcrypt('phujllay'), 'dancer_id' => 51],
             ['name' => 'diablada', 'nickname' => 'diablada', 'access' => now(), 'password' => bcrypt('diablada'), 'dancer_id' => 52],
+
+            ['name' => 'inicio', 'nickname' => 'inicio', 'access' => now(), 'password' => bcrypt('inicio'), 'dancer_id' => 53],
+            ['name' => 'fin', 'nickname' => 'fin', 'access' => now(), 'password' => bcrypt('fin'), 'dancer_id' => 54],
         ]);
 
     }

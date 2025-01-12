@@ -66,6 +66,8 @@ class DancerSeeder extends Seeder
             ['positionSaturday'=>'50','positionSunday'=>'34','name'=>'FRAT. CULTURAL TINKUS BOLIVIA (AYLLU LLAJWAS)', 'imagen'=>'tinkus.png'],
             ['positionSaturday'=>'51','positionSunday'=>'35','name'=>'FRAT. FOLK. ARTÍSTICA Y CULTURAL PHUJLLAY', 'imagen'=>'pujllay.png'],
             ['positionSaturday'=>'52','positionSunday'=>'36','name'=>'FRAT. ARTÍSTICA Y CULTURAL LA DIABLADA', 'imagen'=>'diablada.png'],
+            ['positionSaturday'=>'53','positionSunday'=>'17','name'=>'INICIO', 'imagen'=>'morenadafull.png'],
+            ['positionSaturday'=>'54','positionSunday'=>'17','name'=>'FIN', 'imagen'=>'morenadafull.png'],
         ]);
     }
 }

@@ -19,7 +19,7 @@ const api = axios.create({ baseURL: import.meta.env.VITE_API_BACK })
 const url = import.meta.env.VITE_API_BACK
 const urlSocket = import.meta.env.VITE_API_SOCKET
 
-export default boot(({ app }) => {
+export default boot(({ app, router }) => {
   app.use(VueSocialSharing)
   // for use inside Vue files (Options API) through this.$axios and this.$api
 
@@ -33,6 +33,15 @@ export default boot(({ app }) => {
   const token = localStorage.getItem('tokenCarnaval')
   if (token) {
     api.defaults.headers.common.Authorization = `Bearer ${token}`
+    // me
+    api.get('/me').then((res) => {
+      app.config.globalProperties.$store.user = res.data
+    }).catch(() => {
+      localStorage.removeItem('tokenCarnaval')
+      localStorage.removeItem('user')
+      app.config.globalProperties.$store.isLogin = false
+      router.push('/loginacfo')
+    })
   }
   // ^ ^ ^ this will allow you to use this.$api (for Vue Options API form)
   //       so you can easily perform requests against your app's API

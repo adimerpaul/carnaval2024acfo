@@ -20,6 +20,9 @@ class UserController extends Controller
             return response()->json(['token' => $token, 'user' => $user]);
         }
     }
+    function me(Request $request){
+        return $request->user();
+    }
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
