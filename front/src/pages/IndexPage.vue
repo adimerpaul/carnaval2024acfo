@@ -194,7 +194,7 @@
 <script>
 import 'leaflet/dist/leaflet.css'
 import { LMap, LTileLayer, LControl, LControlLayers, LPolyline, LMarker, LIcon } from '@vue-leaflet/vue-leaflet'
-import dataLine from 'src/pages/lineConvite.json'
+import dataLine from 'src/pages/morenada.json'
 import { io } from 'socket.io-client'
 import { api, url, urlSocket } from 'boot/axios'
 const tileProviders = [
@@ -240,10 +240,10 @@ export default {
       latUpdate: 0,
       lngUpdate: 0,
       polyline: {
-        opacity: 0.5,
-        weight: 10,
+        opacity: 0.6,
+        weight: 8,
         latlngs: dataLine,
-        color: 'orange'
+        color: 'blue'
       },
       cog: 0,
       sharing: {
