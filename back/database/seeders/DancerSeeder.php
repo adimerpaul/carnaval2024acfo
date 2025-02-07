@@ -68,6 +68,10 @@ class DancerSeeder extends Seeder
             ['positionSaturday'=>'52','positionSunday'=>'36','name'=>'FRAT. ARTÍSTICA Y CULTURAL LA DIABLADA', 'imagen'=>'diablada.png'],
             ['positionSaturday'=>'53','positionSunday'=>'17','name'=>'INICIO', 'imagen'=>'morenadafull.png'],
             ['positionSaturday'=>'54','positionSunday'=>'17','name'=>'FIN', 'imagen'=>'morenadafull.png'],
+            ['positionSaturday'=>'55','positionSunday'=>'17','name'=>'BANDA POOPO', 'imagen'=>'poopo.png'],
+            ['positionSaturday'=>'56','positionSunday'=>'17','name'=>'BANDA PAGADOR', 'imagen'=>'pagador.png'],
+            ['positionSaturday'=>'57','positionSunday'=>'17','name'=>'BANDA BOLIVIA', 'imagen'=>'bolivia.png'],
+            ['positionSaturday'=>'58','positionSunday'=>'17','name'=>'BANDA REAL', 'imagen'=>'real.png'],
         ]);
     }
 }

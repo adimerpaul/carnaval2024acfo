@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/dancers',[App\Http\Controllers\DancerController::class, 'index']);
 
 Route::get('/cogs',[App\Http\Controllers\CogController::class, 'index']);
+Route::get('/lineas',[App\Http\Controllers\CogController::class, 'lineas']);
 Route::post('/cogs',[App\Http\Controllers\CogController::class, 'update']);
 Route::post('/login',[App\Http\Controllers\UserController::class, 'login']);
 

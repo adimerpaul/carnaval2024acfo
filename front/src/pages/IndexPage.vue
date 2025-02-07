@@ -14,8 +14,8 @@
         :name="tileProvider.name"
         :visible="tileProvider.visible"
         :url="tileProvider.url"
-        :attribution="tileProvider.attribution"
         layer-type="base"
+        :attribution="''"
       />
       <template v-if="$store.isLogin">
         <l-marker
@@ -97,8 +97,6 @@
           :hashtags="sharing.hashtags"
           :twitterUser="sharing.twitterUser"
         >
-<!--          <i :class="network.icon"></i>-->
-<!--          <span>{{ network.name }}</span>-->
           <q-btn  size="xs" :icon="network.icon" :color="network.color" />
           <br>
         </ShareNetwork>
@@ -112,7 +110,6 @@
           </q-avatar>
           <q-space/>
           <q-btn flat color="primary" icon="close" v-close-popup />
-<!--          <pre>{{dancer}}</pre>-->
         </q-card-section>
         <q-card-section class="q-pa-none">
           <q-item>
@@ -121,26 +118,10 @@
                 <div>{{ dancer.name }}</div>
               </div>
               <q-item-label>
-<!--                <iframe-->
-<!--                  width="100%"-->
-<!--                  height="200"-->
-<!--                  :src="`https://www.youtube.com/embed/${dancer.video}?`"-->
-<!--                  title="SPOT CARNAVAL DE ORURO 2025"-->
-<!--                  frameborder="0"-->
-<!--                  allowfullscreen-->
-<!--                ></iframe>-->
                 <iframe width="100%" height="500" :src="`https://www.youtube.com/embed/${dancer.video}`" title="PRIMER CONVITE Rumbo al CARNAVAL de ORURO 2025 (1/2)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                 <div class="text-caption text-capitalize">
                   {{ dancer.history}}
                 </div>
-<!--                <div class="row">-->
-<!--                  <div class="col-3 flex flex-center">-->
-<!--                    Velocidad:-->
-<!--                  </div>-->
-<!--                  <div class="col-3">-->
-<!--                    <q-input model-value="0" type="number" v-model="dancer.velocity" dense outlined @update:model-value="cambioVelocidad" />-->
-<!--                  </div>-->
-<!--                </div>-->
               </q-item-label>
             </q-item-section>
           </q-item>
@@ -177,7 +158,6 @@
                   use-input
                   input-debounce="0"
                 />
-<!--                <pre>{{dancerUpdate}}</pre>-->
               </q-item-label>
             </q-item-section>
           </q-item>
@@ -193,24 +173,28 @@
 
 <script>
 import 'leaflet/dist/leaflet.css'
+import 'leaflet-arrowheads'
+import 'leaflet-polylineoffset'
 import { LMap, LTileLayer, LControl, LControlLayers, LPolyline, LMarker, LIcon } from '@vue-leaflet/vue-leaflet'
-import dataLine from 'src/pages/morenada.json'
+import dataLine from 'src/pages/morenadaNoche.json'
 import { io } from 'socket.io-client'
 import { api, url, urlSocket } from 'boot/axios'
+
 const tileProviders = [
   {
     name: 'Mapa',
     visible: true,
     url: 'https://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}',
-    attribution: '&copy; Google Maps'
+    attribution: '&copy Google Maps'
   },
   {
     name: 'Satelite',
     visible: false,
     url: 'https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',
-    attribution: '&copy; Google Maps'
+    attribution: '&copy Google Maps'
   }
 ]
+
 export default {
   components: {
     LIcon,
@@ -240,10 +224,19 @@ export default {
       latUpdate: 0,
       lngUpdate: 0,
       polyline: {
-        opacity: 0.6,
-        weight: 8,
-        latlngs: dataLine,
-        color: 'blue'
+        opacity: 0.8,
+        weight: 6,
+        latlngs: [],
+        color: '#4A90E2',
+        offset: 2,
+        arrowheads: {
+          frequency: 'allvertices', // Frecuencia de las flechas
+          size: '15px', // Tamaño de la flecha
+          fill: true,
+          color: '#4A90E2',
+          opacity: 0.8,
+          offsets: { end: '15px' } // Desplazamiento de la última flecha
+        }
       },
       cog: 0,
       sharing: {
@@ -282,12 +275,15 @@ export default {
       })
       this.$store.swSocket = false
     }
+    this.lineasGet()
   },
   methods: {
+    lineasGet () {
+      api.get('lineas').then((res) => {
+        this.polyline.latlngs = res.data
+      })
+    },
     filterFn (val, update) {
-      // console.log('val', val)
-      // console.log('update', update)
-      // console.log('abort', abort)
       if (val === '') {
         update(() => {
           this.dancers = this.dancerAll
@@ -303,10 +299,6 @@ export default {
       this.dancer = dancer
       this.dialogDancer = true
     },
-    // onDragStart (dancer, event) {
-    //   this.showDancer = false
-    //   // console.log('onDragStart', dancer)
-    // },
     onDragEnd (dancer, event) {
       this.loading = true
       api.post('dancersUpdate', { id: dancer.id, lat: event.target._latlng.lat, lng: event.target._latlng.lng }).then((res) => {
@@ -322,8 +314,6 @@ export default {
       this.dancerUpdate = ''
       this.latUpdate = event.latlng.lat
       this.lngUpdate = event.latlng.lng
-      // this.locations.push([event.latlng.lat, event.latlng.lng])
-      // console.log(this.locations)
       this.dialogChangeDancer = true
     },
     dancepocition0 (dancer) {
@@ -376,13 +366,13 @@ export default {
     postCog () {
       this.$axios.post('cogs').then((res) => {
         this.cog = res.data.value
-        // alert(this.cog)
         this.getCogs()
       })
     }
   }
 }
 </script>
+
 <style>
 .someExtraClass {
   text-align: center;
@@ -398,5 +388,8 @@ export default {
   background: rgba(255,152,0, 0.6);
   box-shadow: 0 0 5px rgba(255,152,0, 0.3);
   border-radius: 5px;
+}
+.leaflet-control-attribution {
+  display: none !important;
 }
 </style>
