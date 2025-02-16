@@ -227,16 +227,8 @@ export default {
         opacity: 0.8,
         weight: 6,
         latlngs: [],
-        color: '#4A90E2',
-        offset: 2,
-        arrowheads: {
-          frequency: 'allvertices', // Frecuencia de las flechas
-          size: '15px', // Tamaño de la flecha
-          fill: true,
-          color: '#4A90E2',
-          opacity: 0.8,
-          offsets: { end: '15px' } // Desplazamiento de la última flecha
-        }
+        color: '#D8392B',
+        offset: 2
       },
       cog: 0,
       sharing: {
