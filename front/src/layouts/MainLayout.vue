@@ -103,13 +103,13 @@ export default {
           localStorage.removeItem('user')
           this.$store.isLogin = false
           this.$store.user = '{}'
-          this.$router.push('/loginacfo')
+          this.$router.push('/loginmain')
         }).catch(error => {
           console.log(error)
           localStorage.removeItem('tokenCarnaval')
           localStorage.removeItem('user')
           this.$store.isLogin = false
-          this.$router.push('/loginacfo')
+          this.$router.push('/loginmain')
           this.$q.notify({
             color: 'negative',
             position: 'top',

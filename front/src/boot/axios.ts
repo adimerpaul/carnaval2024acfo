@@ -40,7 +40,7 @@ export default boot(({ app, router }) => {
       localStorage.removeItem('tokenCarnaval')
       localStorage.removeItem('user')
       app.config.globalProperties.$store.isLogin = false
-      router.push('/loginacfo')
+      router.push('/loginmain')
     })
   }
   // ^ ^ ^ this will allow you to use this.$api (for Vue Options API form)
