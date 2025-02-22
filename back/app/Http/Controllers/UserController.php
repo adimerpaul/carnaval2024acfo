@@ -14,7 +14,7 @@ class UserController extends Controller
         //login con token
         $user = User::where('nickname', $credentials['nickname'])->first();
         if (!$user || !Hash::check($credentials['password'], $user->password)) {
-            return response()->json(['error' => 'Credenciales incorrectas'], 401);
+            return response()->json(['message' => 'Credenciales incorrectas'], 401);
         }else{
             $token = $user->createToken('token')->plainTextToken;
             return response()->json(['token' => $token, 'user' => $user]);

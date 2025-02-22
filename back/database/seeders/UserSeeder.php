@@ -13,18 +13,29 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+
         DB::table('users')->insert([
-            ['name' => 'admin', 'nickname' => 'admin', 'access' => now(), 'password' => bcrypt('admin123'),],
-            ['name' => 'Alejandro Fernando Lopez Gutierrez', 'nickname' => 'Alejandro',  'access' => now(), 'password' => bcrypt('5769706'),],
-            ['name' => 'Edwin Ronaldo Ramirez Cortez', 'nickname' => 'Edwin',  'access' => now(), 'password' => bcrypt('7317487'),],
-            ['name' => 'RONALD CHAMBI MAMANI', 'nickname' => 'RONALD',  'access' => now(), 'password' => bcrypt('7306104'),],
-            ['name' => 'Elizabet Chusicoma Ordoñez', 'nickname' => 'Elizabet',  'access' => now(), 'password' => bcrypt('12613097'),],
-            ['name' => 'VICTOR MANUEL RAMIREZ CORTEZ', 'nickname' => 'VICTOR',  'access' => now(), 'password' => bcrypt('7317488'),],
-            ['name' => 'Clariza Ramirez perez', 'nickname' => 'Clariza',  'access' => now(), 'password' => bcrypt('7368788'),],
-            ['name' => 'Alexander Yave Colque', 'nickname' => 'Alexander',  'access' => now(), 'password' => bcrypt('7367668'),],
-            ['name' => 'Yave Colque Kevin Axel', 'nickname' => 'Yave',  'access' => now(), 'password' => bcrypt('7367674'),],
-            ['name' => 'leonela huanca pereio', 'nickname' => 'leonela',  'access' => now(), 'password' => bcrypt('72745573'),],
-            ['name' => 'moises gonzales pereira', 'nickname' => 'moises',  'access' => now(), 'password' => bcrypt('123456'),],
+            ['name' => 'admin', 'nickname' => 'admin', 'access' => now(), 'password' => bcrypt('admin123A'),],
+//            ['name' => 'Alejandro Fernando Lopez Gutierrez', 'nickname' => 'Alejandro',  'access' => now(), 'password' => bcrypt('5769706'),],
+//            ['name' => 'Edwin Ronaldo Ramirez Cortez', 'nickname' => 'Edwin',  'access' => now(), 'password' => bcrypt('7317487'),],
+//            ['name' => 'RONALD CHAMBI MAMANI', 'nickname' => 'RONALD',  'access' => now(), 'password' => bcrypt('7306104'),],
+//            ['name' => 'Elizabet Chusicoma Ordoñez', 'nickname' => 'Elizabet',  'access' => now(), 'password' => bcrypt('12613097'),],
+//            ['name' => 'VICTOR MANUEL RAMIREZ CORTEZ', 'nickname' => 'VICTOR',  'access' => now(), 'password' => bcrypt('7317488'),],
+//            ['name' => 'Alexander Yave Colque', 'nickname' => 'Alexander',  'access' => now(), 'password' => bcrypt('7367668'),],
+//            ['name' => 'Yave Colque Kevin Axel', 'nickname' => 'Yave',  'access' => now(), 'password' => bcrypt('7367674'),],
+//            ['name' => 'leonela huanca pereio', 'nickname' => 'leonela',  'access' => now(), 'password' => bcrypt('72745573'),],
+//            ['name' => 'moises gonzales pereira', 'nickname' => 'moises',  'access' => now(), 'password' => bcrypt('123456'),],
+            ['name' => 'Leonela Huanca Pereira', 'nickname' => 'leonela',  'access' => now(), 'password' => bcrypt('7274573'),],
+            ['name' => 'Moisés Aharon Gonzales Pereira', 'nickname' => 'moises',  'access' => now(), 'password' => bcrypt('7289370'),],
+            ['name' => 'Yave Colque Kevin Axel', 'nickname' => 'yave',  'access' => now(), 'password' => bcrypt('7367674'),],
+            ['name' => 'Chusicoma Ordoñez Elizabet', 'nickname' => 'elizabet',  'access' => now(), 'password' => bcrypt('12613097'),],
+            ['name' => 'Edwin R. Ramírez Cortez', 'nickname' => 'edwin',  'access' => now(), 'password' => bcrypt('7317487'),],
+            ['name' => 'Evelyn Ramirez', 'nickname' => 'evelyn',  'access' => now(), 'password' => bcrypt('3540043'),],
+            ['name' => 'Victor Manuel Ramirez Cortez', 'nickname' => 'victor',  'access' => now(), 'password' => bcrypt('7317488'),],
+            ['name' => 'Clariza Ramirez perez', 'nickname' => 'clariza',  'access' => now(), 'password' => bcrypt('7368788'),],
+            ['name' => 'Ana Lía Garabito Huayta', 'nickname' => 'ana',  'access' => now(), 'password' => bcrypt('7302022'),],
+            ['name' => 'Gabriel Bazualdo Sánchez', 'nickname' => 'gabriel',  'access' => now(), 'password' => bcrypt('3116323'),],
+            ['name' => 'Alejandro Ramírez', 'nickname' => 'alejandro',  'access' => now(), 'password' => bcrypt('5769706'),],
         ]);
 //
 //        ['positionSaturday'=>'1','positionSunday'=>'10','name'=>'GRAN TRADICIONAL AUTENTICA DIABLADA ORURO', 'imagen'=>'diablada.png'],
@@ -133,14 +144,14 @@ class UserSeeder extends Seeder
             ['name' => 'phujllay', 'nickname' => 'phujllay', 'access' => now(), 'password' => bcrypt('phujllay'), 'dancer_id' => 51],
             ['name' => 'diablada', 'nickname' => 'diablada', 'access' => now(), 'password' => bcrypt('diablada'), 'dancer_id' => 52],
 
-            ['name' => 'inicio', 'nickname' => 'inicio', 'access' => now(), 'password' => bcrypt('inicio'), 'dancer_id' => 53],
-            ['name' => 'fin', 'nickname' => 'fin', 'access' => now(), 'password' => bcrypt('fin'), 'dancer_id' => 54],
-
-
-            ['name' => 'poopo', 'nickname' => 'poopo', 'access' => now(), 'password' => bcrypt('poopo'), 'dancer_id' => 55],
-            ['name' => 'pagador', 'nickname' => 'pagador', 'access' => now(), 'password' => bcrypt('pagador'), 'dancer_id' => 56],
-            ['name' => 'bolivia', 'nickname' => 'bolivia', 'access' => now(), 'password' => bcrypt('bolivia'), 'dancer_id' => 57],
-            ['name' => 'real', 'nickname' => 'real', 'access' => now(), 'password' => bcrypt('real'), 'dancer_id' => 58],
+//            ['name' => 'inicio', 'nickname' => 'inicio', 'access' => now(), 'password' => bcrypt('inicio'), 'dancer_id' => 53],
+//            ['name' => 'fin', 'nickname' => 'fin', 'access' => now(), 'password' => bcrypt('fin'), 'dancer_id' => 54],
+//
+//
+//            ['name' => 'poopo', 'nickname' => 'poopo', 'access' => now(), 'password' => bcrypt('poopo'), 'dancer_id' => 55],
+//            ['name' => 'pagador', 'nickname' => 'pagador', 'access' => now(), 'password' => bcrypt('pagador'), 'dancer_id' => 56],
+//            ['name' => 'bolivia', 'nickname' => 'bolivia', 'access' => now(), 'password' => bcrypt('bolivia'), 'dancer_id' => 57],
+//            ['name' => 'real', 'nickname' => 'real', 'access' => now(), 'password' => bcrypt('real'), 'dancer_id' => 58],
         ]);
 
     }

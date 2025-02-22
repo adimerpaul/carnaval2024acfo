@@ -57,6 +57,12 @@ export default {
         this.$store.user = response.data.user
         api.defaults.headers.common.Authorization = `Bearer ${response.data.token}`
       }).catch(error => {
+        this.$q.notify({
+          color: 'negative',
+          position: 'top',
+          message: error.response.data.message,
+          icon: 'report_problem'
+        })
         console.log(error)
       }).finally(() => {
         this.loading = false
