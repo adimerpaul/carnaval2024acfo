@@ -11,7 +11,6 @@
           <q-carousel-slide name="style" class="column no-wrap flex-center">
             <q-icon name="style" color="primary" size="56px" />
             <div class="q-mt-md text-center">
-              <iframe width="853" height="480" src="https://www.youtube.com/embed/Kl4fd0SSeIA" title="INOLVIDABLE – ELMER HERMOSA &amp; LIN ANGULO FT. SUMAJTA EN BOLIVIA | VIDEOCLIP OFICIAL" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
               <iframe width="100%" height="500" src="https://www.youtube.com/embed/Kl4fd0SSeIA?rel=0" title="SPOT CARNAVAL DE ORURO 2024" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             </div>
           </q-carousel-slide>
