@@ -30,6 +30,19 @@ db.connect(err => {
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
+app.get('/dance/:id/:lat/:lng', (req, res) => {
+    const { id, lat, lng } = req.params;
+    io.emit('danceOne', { id, lat, lng });
+    db.query('UPDATE `dancers` SET lat = ?, lng = ? WHERE id = ?', [lat, lng, id], (err, result) => {
+        if (err) {
+            console.error('Error al ejecutar la consulta:', err);
+            res.status(500).send('Error al actualizar la posición del dancer');
+            return;
+        }
+        const Id = parseInt(id);
+        res.json({ id:Id, lat, lng });
+    });
+});
 
 io.on("connection", (socket) => {
     console.log('Usuario conectado');
@@ -38,23 +51,8 @@ io.on("connection", (socket) => {
     socket.on('dance', (msg) => {
         io.emit('dance', msg);
     });
-    socket.on('danceAll', (msg) => {
-        db.query('SELECT * FROM `dancers`', (err, dancers) => {
-            if (err) {
-                console.error('Error al ejecutar la consulta en dancers:', err);
-                socket.emit('dance', { error: 'Error al obtener los dancers' });
-                return;
-            }
-            db.query('SELECT * FROM `cogs`', (err, cogs) => {
-                if (err) {
-                    console.error('Error al ejecutar la consulta en cogs:', err);
-                    socket.emit('dance', { error: 'Error al obtener los cogs' });
-                    return;
-                }
-                // Envía ambos resultados juntos en un solo objeto
-                io.emit('dance', { dancers, cogs });
-            });
-        });
+    socket.on('danceOne', (msg) => {
+        io.emit('danceOne', msg);
     });
 });
 

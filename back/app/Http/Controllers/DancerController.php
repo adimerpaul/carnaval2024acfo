@@ -7,9 +7,20 @@ use App\Models\Dancer;
 use App\Http\Requests\StoreDancerRequest;
 use App\Http\Requests\UpdateDancerRequest;
 use App\Models\User;
+use Illuminate\Http\Request;
 use function Laravel\Prompts\error;
 
 class DancerController extends Controller{
+    function show($id){
+        $dancer = Dancer::find($id);
+        $imagePath = public_path('uploads/' . $dancer->imagen);
+        if (file_exists($imagePath)) {
+            $imageData = file_get_contents($imagePath);
+            $base64Image = base64_encode($imageData);
+            $dancer->image = $base64Image;
+        }
+        return $dancer;
+    }
     public function index(){
         $dancers = Dancer::all();
         $dancers->each(function($dancer){
@@ -55,7 +66,7 @@ class DancerController extends Controller{
 //        });
 //        $dancersArray = $dancers->toArray();
 
-        $data = ['username' => 'my-user'];
+//        $data = ['username' => 'my-user'];
 
 
         $this->soketIO('dance', $dancers->toArray());
@@ -91,5 +102,14 @@ class DancerController extends Controller{
         $timeOld = strtotime($timeOld);
         $time = $timeNew - $timeOld;
         return $time;
+    }
+    function updateOne(Request $request){
+//        $url = env('URL_SOCKET' , 'http://localhost:3000');
+//        http
+        $client = new \GuzzleHttp\Client();
+        $response = $client->request('GET', $url . '/dance/' . $request->id . '/' . $request->lat . '/' . $request->lng);
+        $response = $response->getBody()->getContents();
+        return $response;
+
     }
 }

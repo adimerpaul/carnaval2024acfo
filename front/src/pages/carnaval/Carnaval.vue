@@ -256,15 +256,23 @@ export default {
     this.postCog()
     this.getDancers()
     if (this.$store.swSocket) {
-      this.socket.on('dance', (data) => {
-        this.postCog()
-        data.forEach((dancer) => {
-          const findDancer = this.dancers.find((d) => d.id === dancer.id)
-          if (findDancer) {
-            findDancer.lat = dancer.lat
-            findDancer.lng = dancer.lng
-          }
-        })
+      this.socket.on('danceOne', (data) => {
+        // console.log('danceOne', data)
+        const id = data.id
+        // console.log('id', id)
+        const findDancer = this.dancers.find((d) => parseInt(d.id) === parseInt(id))
+        if (findDancer) {
+          findDancer.lat = data.lat
+          findDancer.lng = data.lng
+        }
+        // this.postCog()
+        // data.forEach((dancer) => {
+        //   const findDancer = this.dancers.find((d) => d.id === dancer.id)
+        //   if (findDancer) {
+        //     findDancer.lat = dancer.lat
+        //     findDancer.lng = dancer.lng
+        //   }
+        // })
       })
       this.$store.swSocket = false
     }
@@ -306,8 +314,11 @@ export default {
     },
     onDragEnd (dancer, event) {
       this.loading = true
-      api.post('dancersUpdate', { id: dancer.id, lat: event.target._latlng.lat, lng: event.target._latlng.lng }).then((res) => {
-        console.log('res', res)
+      const dancerFind = this.dancers.find((d) => d.id === dancer.id)
+      dancerFind.lat = event.target._latlng.lat
+      dancerFind.lng = event.target._latlng.lng
+      api.post('dancersUpdateOne', { id: dancer.id, lat: event.target._latlng.lat, lng: event.target._latlng.lng }).then((res) => {
+        // console.log('res', res)
       }).finally(() => {
         this.loading = false
       })
