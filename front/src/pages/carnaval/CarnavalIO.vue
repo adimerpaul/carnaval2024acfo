@@ -302,7 +302,8 @@ export default {
         const dancers = data.dancers
         const cog = data.cog.value
         this.$store.dancers = await this.cacheDancerImages(dancers)
-        this.dancerAll = this.$store.dancers
+        this.$store.dancerAll = [...this.$store.dancers]
+        // console.log('this.$store.dancers', this.$store.dancers)
         this.$store.cog = cog
         this.$store.loading = false
         this.socket.emit('cogsMore')
@@ -403,6 +404,7 @@ export default {
       })
     },
     filterFn (val, update) {
+      console.log('val', val)
       if (val === '') {
         update(() => {
           this.$store.dancers = this.$store.dancerAll
