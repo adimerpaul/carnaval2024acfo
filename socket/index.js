@@ -7,24 +7,9 @@ const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const redis = require('redis');
-const redisClient = redis.createClient({
-    socket: {
-        host: '127.0.0.1', // Fuerza IPv4 en lugar de ::1
-        port: 6379
-    }
-});
+const redisClient = redis.createClient();
 
 redisClient.on('error', (err) => console.error('Error en Redis:', err));
-redisClient.on('connect', () => console.log('Conectado a Redis'));
-
-(async () => {
-    try {
-        await redisClient.connect();
-        console.log('Conectado a Redis');
-    } catch (error) {
-        console.error('Error al conectar a Redis:', error);
-    }
-})();
 
 const allowedOrigins = ["http://localhost:3013","http://localhost:9000", "https://centenariocentral.com/", "http://192.168.1.3:9000"];
 const io = require("socket.io")(http, {
@@ -46,6 +31,8 @@ app.use(cors({
         return callback(null, true);
     }
 }));
+
+const imageCache = {};
 
 const mysql = require('mysql2');
 const db = mysql.createConnection({
@@ -134,21 +121,20 @@ io.on("connection", (socket) => {
                         // }));
                         const dancers = await Promise.all(results.map(async (row) => {
                             const imagePath = path.join(__dirname, 'uploads', row.imagen);
-                            let base64Image = await redisClient.get(row.imagen); // Verifica en caché
 
-                            if (!base64Image) {
+                            if (!imageCache[row.imagen]) {
                                 try {
                                     const imageBuffer = fs.readFileSync(imagePath);
-                                    base64Image = imageBuffer.toString('base64');
-                                    await redisClient.set(row.imagen, base64Image); // Guarda en caché
+                                    imageCache[row.imagen] = imageBuffer.toString('base64'); // Guardar en caché
                                 } catch (error) {
                                     console.error(`Error al leer la imagen ${imagePath}:`, error);
+                                    imageCache[row.imagen] = null; // Evita intentos fallidos repetidos
                                 }
                             }
 
                             return {
                                 ...row,
-                                image: base64Image,  // Obtener desde Redis
+                                image: imageCache[row.imagen],  // Obtener desde caché
                             };
                         }));
 
@@ -202,7 +188,7 @@ io.on("connection", (socket) => {
             console.error('Error al actualizar la cantidad de cogs:', error);
         }
     });
-
+    // se salio un usuario
     socket.on('disconnect', () => {
         console.log('Usuario desconectado');
     });
