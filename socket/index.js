@@ -7,9 +7,24 @@ const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const redis = require('redis');
-const redisClient = redis.createClient();
+const redisClient = redis.createClient({
+    socket: {
+        host: '127.0.0.1', // Fuerza IPv4 en lugar de ::1
+        port: 6379
+    }
+});
 
 redisClient.on('error', (err) => console.error('Error en Redis:', err));
+redisClient.on('connect', () => console.log('Conectado a Redis'));
+
+(async () => {
+    try {
+        await redisClient.connect();
+        console.log('Conectado a Redis');
+    } catch (error) {
+        console.error('Error al conectar a Redis:', error);
+    }
+})();
 
 const allowedOrigins = ["http://localhost:3013","http://localhost:9000", "https://centenariocentral.com/", "http://192.168.1.3:9000"];
 const io = require("socket.io")(http, {
