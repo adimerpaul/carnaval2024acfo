@@ -4,6 +4,8 @@ require('dotenv').config();
 const axios = require('axios');
 const http = require('http').createServer(app);
 const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
 
 const allowedOrigins = ["http://localhost:3013","http://localhost:9000", "https://centenariocentral.com/", "http://192.168.1.3:9000"];
 const io = require("socket.io")(http, {
@@ -95,16 +97,23 @@ io.on("connection", (socket) => {
                         }
 
                         const dancers = await Promise.all(results.map(async (row) => {
-                            const imageUrl = `${URL_BACK}${row.imagen}`;
+                            // const imageUrl = `${URL_BACK}${row.imagen}`;
+                            const imagePath = path.join(__dirname, 'uploads', row.imagen);
 
                             let base64Image = null;
+                            // try {
+                            //     const response = await axios.get(imageUrl, {
+                            //         responseType: 'arraybuffer'
+                            //     });
+                            //     base64Image = `${Buffer.from(response.data, 'binary').toString('base64')}`;
+                            // } catch (error) {
+                            //     console.error(`Error al convertir la imagen ${imageUrl}:`, error);
+                            // }
                             try {
-                                const response = await axios.get(imageUrl, {
-                                    responseType: 'arraybuffer'
-                                });
-                                base64Image = `${Buffer.from(response.data, 'binary').toString('base64')}`;
+                                const imageBuffer = fs.readFileSync(imagePath);
+                                base64Image = imageBuffer.toString('base64');
                             } catch (error) {
-                                console.error(`Error al convertir la imagen ${imageUrl}:`, error);
+                                console.error(`Error al leer la imagen ${imagePath}:`, error);
                             }
 
                             return {
