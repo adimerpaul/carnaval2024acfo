@@ -8,9 +8,11 @@ const cors = require('cors');
 const allowedOrigins = ["http://localhost:3013","http://localhost:9000", "https://centenariocentral.com/", "http://192.168.1.3:9000"];
 const io = require("socket.io")(http, {
     cors: {
-        origin: allowedOrigins,
-        methods: ["GET", "POST"]
-    },
+        origin: ["http://localhost:3013", "http://localhost:9000", "https://centenariocentral.com", "http://192.168.1.3:9000"],
+        methods: ["GET", "POST"],
+        allowedHeaders: ["Content-Type", "Authorization"], // Ajusta esto según tus necesidades
+        credentials: true
+    }
 });
 
 app.use(cors({
@@ -164,6 +166,6 @@ io.on("connection", (socket) => {
 });
 
 const PORT = process.env.PORT || 3000;
-http.listen(PORT, () => {
+http.listen(PORT, "0.0.0.0", () => {
     console.log(`Servidor escuchando en http://localhost:${PORT}`);
 });
