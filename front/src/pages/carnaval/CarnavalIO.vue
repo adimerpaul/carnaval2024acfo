@@ -405,7 +405,7 @@ export default {
     filterFn (val, update) {
       if (val === '') {
         update(() => {
-          this.$store.dancers = this.dancerAll
+          this.$store.dancers = this.$store.dancerAll
         })
         return
       }
