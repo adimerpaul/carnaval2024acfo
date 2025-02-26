@@ -10,7 +10,8 @@ const routes: RouteRecordRaw[] = [
       { path: 'videos', component: () => import('pages/Videos.vue') },
       { path: 'acfo', component: () => import('pages/Acfo.vue') },
       { path: 'rol', component: () => import('pages/Rol.vue') },
-      { path: 'usuarios', component: () => import('pages/User.vue') }
+      { path: 'usuarios', component: () => import('pages/User.vue') },
+      { path: 'about', component: () => import('pages/about/About.vue') }
     ]
   },
 

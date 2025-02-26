@@ -69,6 +69,8 @@
         <q-route-tab name="videos" label="Videos" :icon="tab === 'videos' ? 'videocam' : 'o_videocam'" to="/videos" />
         <q-route-tab name="apoyos" label="Central" :icon="tab === 'apoyos' ? 'favorite' : 'favorite_border'" to="/acfo" />
         <q-route-tab name="roles" label="Rol" :icon="tab === 'roles' ? 'people' : 'o_people'" to="/rol" />
+<!--        Desarrollado por-->
+        <q-route-tab name="about" label="Desarro" :icon="tab === 'about' ? 'info' : 'o_info'" to="/about" />
       </q-tabs>
     </q-footer>
   </q-layout>
