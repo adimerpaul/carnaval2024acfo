@@ -96,7 +96,7 @@
         <q-btn dense :disable="true" size="12px" :label="`Vistas ${$store.cog}`" color="primary" icon="visibility" no-caps/>
         <br><br><br><br><br>
         <br><br><br><br><br>
-        <br><br><br>
+        <br><br><br><br><br><br>
         <q-btn dense color="blue" icon="my_location" label="Mi Ubicación" @click="getUserLocation" no-caps :loading="$store.loading" />
       </l-control>
 <!--      <l-control position="bottomleft">-->
@@ -136,7 +136,7 @@
                 <div>{{ dancer.name }}</div>
               </div>
               <q-item-label>
-                <iframe width="100%" height="500" :src="`https://www.youtube.com/embed/${dancer.video}`" title="PRIMER CONVITE Rumbo al CARNAVAL de ORURO 2025 (1/2)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <iframe width="100%" height="250" :src="`https://www.youtube.com/embed/${dancer.video}`" title="PRIMER CONVITE Rumbo al CARNAVAL de ORURO 2025 (1/2)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                 <div class="text-caption text-capitalize">
                   {{ dancer.history}}
                 </div>
