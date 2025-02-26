@@ -1,8 +1,9 @@
 <template>
   <q-page>
     <l-map
+      ref="map"
       v-model:zoom="zoom"
-      :center="[-17.965, -67.1125]"
+      :center="center"
       :use-global-leaflet="false"
       style="height: calc(100vh - 107px)"
       :min-zoom="12"
@@ -61,6 +62,17 @@
           </l-icon>
         </l-marker>
       </template>
+      <l-marker v-if="userLocation" :lat-lng="userLocation">
+        <l-tooltip permanent style="background: white; color: black; border-radius: 5px;">
+          <div style="font-size: 12px; font-weight: bold;">Mi Ubicación</div>
+        </l-tooltip>
+        <l-icon class-name="someExtraClass">
+          <q-icon name="my_location" color="blue" size="24px" />
+          <div  class="headline">
+            Mi Ubicación
+          </div>
+        </l-icon>
+      </l-marker>
       <l-control-layers
         position="topright"
         :collapsed="true"
@@ -82,6 +94,9 @@
         <br>
         <br>
         <q-btn dense :disable="true" size="12px" :label="`Vistas ${$store.cog}`" color="primary" icon="visibility" no-caps/>
+      </l-control>
+      <l-control position="bottomleft">
+        <q-btn dense color="blue" icon="my_location" label="Mi Ubicación" @click="getUserLocation" no-caps :loading="$store.loading" />
       </l-control>
       <l-control position="topright">
         <div>Compartir</div>
@@ -175,7 +190,7 @@
 import 'leaflet/dist/leaflet.css'
 import 'leaflet-arrowheads'
 import 'leaflet-polylineoffset'
-import { LControl, LControlLayers, LIcon, LMap, LMarker, LPolyline, LTileLayer } from '@vue-leaflet/vue-leaflet'
+import { LControl, LControlLayers, LIcon, LMap, LMarker, LPolyline, LTileLayer, LTooltip } from '@vue-leaflet/vue-leaflet'
 import { io } from 'socket.io-client'
 import { api, url, urlSocket } from 'boot/axios'
 
@@ -196,6 +211,7 @@ const tileProviders = [
 
 export default {
   components: {
+    LTooltip,
     LIcon,
     LMap,
     LTileLayer,
@@ -206,6 +222,8 @@ export default {
   },
   data () {
     return {
+      center: [-17.965, -67.1125],
+      userLocation: [0, 0],
       socket: io(urlSocket),
       loading: false,
       tileProviders,
@@ -292,6 +310,40 @@ export default {
     this.lineasGet()
   },
   methods: {
+    async getUserLocation () {
+      this.$store.loading = true
+
+      if (!navigator.geolocation) {
+        console.error('Geolocalización no soportada en este navegador')
+        this.$store.loading = false
+        return
+      }
+
+      this.userLocation = [0, 0]
+      this.center = [-17.965, -67.1125]
+
+      try {
+        const position = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject)
+        })
+
+        this.userLocation = [position.coords.latitude, position.coords.longitude]
+
+        // Mueve la cámara suavemente al nuevo centro
+        if (this.$refs.map) {
+          this.$refs.map.leafletObject.flyTo(this.userLocation, this.zoom, {
+            animate: true,
+            duration: 1.5 // Duración en segundos
+          })
+        } else {
+          this.center = this.userLocation // En caso de que el mapa aún no esté disponible
+        }
+      } catch (error) {
+        console.error('Error obteniendo ubicación:', error)
+      } finally {
+        this.$store.loading = false
+      }
+    },
     async cacheDancerImages (dancers) {
       // console.log('cacheDancerImages', dancers)
 
