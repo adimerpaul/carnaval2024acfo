@@ -293,7 +293,7 @@ export default {
   },
   methods: {
     async cacheDancerImages (dancers) {
-      console.log('cacheDancerImages', dancers)
+      // console.log('cacheDancerImages', dancers)
 
       // 1️⃣ Identificar imágenes que faltan en la caché
       const nameImagenesFaltantes = []
@@ -302,10 +302,10 @@ export default {
         const cachedImage = localStorage.getItem(cacheKey)
 
         if (cachedImage) {
-          console.log(`Imagen en caché: ${dancer.imagen}`)
+          // console.log(`Imagen en caché: ${dancer.imagen}`)
           dancer.image = cachedImage // Recuperar de caché
         } else {
-          console.log(`Falta descargar: ${dancer.imagen}`)
+          // console.log(`Falta descargar: ${dancer.imagen}`)
           nameImagenesFaltantes.push(dancer.imagen)
         }
       })
@@ -313,7 +313,7 @@ export default {
       // 2️⃣ Si hay imágenes faltantes, hacer UNA SOLA llamada API
       if (nameImagenesFaltantes.length > 0) {
         try {
-          console.log(`Solicitando imágenes faltantes: ${nameImagenesFaltantes}`)
+          // console.log(`Solicitando imágenes faltantes: ${nameImagenesFaltantes}`)
 
           const response = await api.post('imagenes64', { nameImgenFaltantes: nameImagenesFaltantes })
 

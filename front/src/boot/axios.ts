@@ -29,6 +29,7 @@ export default boot(({ app, router }) => {
 
   app.config.globalProperties.$api = api
   app.config.globalProperties.$url = import.meta.env.VITE_API_BACK
+  app.config.globalProperties.$version = import.meta.env.VITE_API_VERSION
   app.config.globalProperties.$store = useCounterStore()
 
   const token = localStorage.getItem('tokenCarnaval')

@@ -10,6 +10,7 @@
           aria-label="Menu"
           @click="toggleLeftDrawer"
         />
+        {{$version}}
         <q-space />
         <div class="text-subtitle2">
           {{ $store.isLogin ? $store.user.nickname : 'Morenada central 2025' }}
