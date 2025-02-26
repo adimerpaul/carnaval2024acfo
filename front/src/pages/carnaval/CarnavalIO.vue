@@ -96,8 +96,6 @@
         <q-btn dense :disable="true" size="12px" :label="`Vistas ${$store.cog}`" color="primary" icon="visibility" no-caps/>
         <br><br><br><br><br>
         <br><br><br><br><br>
-        <br><br><br><br><br>
-        <br><br><br><br><br>
         <q-btn dense color="blue" icon="my_location" label="Mi Ubicación" @click="getUserLocation" no-caps :loading="$store.loading" />
       </l-control>
       <l-control position="bottomleft">
