@@ -10,7 +10,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
     public function soketIO($urlSocket,$data){
-        $url = 'https://www.socket.centenariocentral.com/';
+        $url = env('URL_SOCKET' , 'http://localhost:3000');
 //        error_log("url: ".$url);
         // return "url: ".$url;
         $client = new Client(Client::engine(Client::CLIENT_4X, $url));

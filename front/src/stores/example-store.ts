@@ -5,7 +5,10 @@ export const useCounterStore = defineStore('counter', {
     counter: 0,
     swSocket: true,
     isLogin: !!localStorage.getItem('tokenCarnaval'),
-    user: JSON.parse(localStorage.getItem('user') || '{}')
+    user: JSON.parse(localStorage.getItem('user') || '{}'),
+    dancers: [],
+    dancerAll: [],
+    cog: 0
   }),
   getters: {
     doubleCount: (state) => state.counter * 2
