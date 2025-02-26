@@ -284,6 +284,7 @@ export default {
         this.dancerAll = this.$store.dancers
         this.$store.cog = cog
         this.$store.loading = false
+        this.socket.emit('cogsMore')
       })
       this.$store.swSocket = false
     }
