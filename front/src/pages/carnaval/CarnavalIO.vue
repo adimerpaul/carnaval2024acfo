@@ -277,12 +277,11 @@ export default {
           }
         })
       })
-      this.socket.on('danceAll', (data) => {
-        // console.log('data', data.cog)
+      this.socket.on('danceAll', async (data) => {
         const dancers = data.dancers
         const cog = data.cog.value
-        this.$store.dancers = dancers
-        this.dancerAll = dancers
+        this.$store.dancers = await this.cacheDancerImages(dancers)
+        this.dancerAll = this.$store.dancers
         this.$store.cog = cog
         this.$store.loading = false
       })
@@ -292,6 +291,52 @@ export default {
     this.lineasGet()
   },
   methods: {
+    async cacheDancerImages (dancers) {
+      console.log('cacheDancerImages', dancers)
+
+      // 1️⃣ Identificar imágenes que faltan en la caché
+      const nameImagenesFaltantes = []
+      dancers.forEach((dancer) => {
+        const cacheKey = `image_${dancer.imagen}`
+        const cachedImage = localStorage.getItem(cacheKey)
+
+        if (cachedImage) {
+          console.log(`Imagen en caché: ${dancer.imagen}`)
+          dancer.image = cachedImage // Recuperar de caché
+        } else {
+          console.log(`Falta descargar: ${dancer.imagen}`)
+          nameImagenesFaltantes.push(dancer.imagen)
+        }
+      })
+
+      // 2️⃣ Si hay imágenes faltantes, hacer UNA SOLA llamada API
+      if (nameImagenesFaltantes.length > 0) {
+        try {
+          console.log(`Solicitando imágenes faltantes: ${nameImagenesFaltantes}`)
+
+          const response = await api.post('imagenes64', { nameImgenFaltantes: nameImagenesFaltantes })
+
+          // 3️⃣ Guardar imágenes en caché y asignarlas a los dancers
+          response.data.forEach((img) => {
+            const cacheKey = `image_${img.name}`
+            localStorage.setItem(cacheKey, img.image)
+          })
+
+          // 4️⃣ Asignar imágenes descargadas a los dancers
+          dancers.forEach((dancer) => {
+            const cacheKey = `image_${dancer.imagen}`
+            const cachedImage = localStorage.getItem(cacheKey)
+            if (cachedImage) {
+              dancer.image = cachedImage
+            }
+          })
+        } catch (error) {
+          console.error('Error al obtener imágenes en base64:', error)
+        }
+      }
+
+      return dancers // Devuelve la lista con las imágenes cargadas
+    },
     getDancersIO () {
       this.$store.loading = true
       this.socket.emit('danceAll')

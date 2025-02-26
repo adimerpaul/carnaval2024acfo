@@ -11,6 +11,52 @@ use Illuminate\Http\Request;
 use function Laravel\Prompts\error;
 
 class DancerController extends Controller{
+    //api.post('imagenes64', { nameImgenFaltantes }).then((res) => {
+//    res.data.forEach((img) => {
+//        const cacheKey = `image_${img.name}`
+//            localStorage.setItem(cacheKey, img.image)
+//            dancer.image = img.image
+//          })
+//        })
+    public function imagenes64(Request $request) {
+        // 1️⃣ Obtener solo los nombres de imágenes faltantes desde el frontend
+        $imagenesFaltantes = $request->input('nameImgenFaltantes', []);
+
+        if (empty($imagenesFaltantes)) {
+            return response()->json([], 200);
+        }
+
+        // 2️⃣ Buscar solo los bailarines con esas imágenes
+        $dancers = Dancer::whereIn('imagen', $imagenesFaltantes)->get();
+
+        // 3️⃣ Convertir imágenes a base64
+        $imagenesBase64 = [];
+
+        foreach ($dancers as $dancer) {
+            $imagePath = public_path('uploads/' . $dancer->imagen);
+
+            if (file_exists($imagePath)) {
+                $imageData = file_get_contents($imagePath);
+                $base64Image = base64_encode($imageData);
+                $imagenesBase64[] = [
+                    'name' => $dancer->imagen,
+                    'image' => $base64Image
+                ];
+            }
+        }
+
+        // 4️⃣ Devolver solo las imágenes faltantes
+        return response()->json($imagenesBase64, 200);
+    }
+    function base64($image){
+        $imagePath = public_path('uploads/' . $image);
+        if (file_exists($imagePath)) {
+            $imageData = file_get_contents($imagePath);
+            $base64Image = base64_encode($imageData);
+            return $base64Image;
+        }
+        return '';
+    }
     function show($id){
         $dancer = Dancer::find($id);
         $imagePath = public_path('uploads/' . $dancer->imagen);

@@ -120,21 +120,21 @@ io.on("connection", (socket) => {
                         //     };
                         // }));
                         const dancers = await Promise.all(results.map(async (row) => {
-                            const imagePath = path.join(__dirname, 'uploads', row.imagen);
-
-                            if (!imageCache[row.imagen]) {
-                                try {
-                                    const imageBuffer = fs.readFileSync(imagePath);
-                                    imageCache[row.imagen] = imageBuffer.toString('base64'); // Guardar en caché
-                                } catch (error) {
-                                    console.error(`Error al leer la imagen ${imagePath}:`, error);
-                                    imageCache[row.imagen] = null; // Evita intentos fallidos repetidos
-                                }
-                            }
+                            // const imagePath = path.join(__dirname, 'uploads', row.imagen);
+                            //
+                            // if (!imageCache[row.imagen]) {
+                            //     try {
+                            //         const imageBuffer = fs.readFileSync(imagePath);
+                            //         imageCache[row.imagen] = imageBuffer.toString('base64'); // Guardar en caché
+                            //     } catch (error) {
+                            //         console.error(`Error al leer la imagen ${imagePath}:`, error);
+                            //         imageCache[row.imagen] = null; // Evita intentos fallidos repetidos
+                            //     }
+                            // }
 
                             return {
                                 ...row,
-                                image: imageCache[row.imagen],  // Obtener desde caché
+                                // image: imageCache[row.imagen],  // Obtener desde caché
                             };
                         }));
 

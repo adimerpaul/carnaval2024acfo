@@ -29,6 +29,10 @@ Route::post('/cogs',[App\Http\Controllers\CogController::class, 'update']);
 Route::post('/login',[App\Http\Controllers\UserController::class, 'login']);
 Route::post('/updateData',[App\Http\Controllers\UserController::class, 'updateData']);
 Route::get('/dancers/{id}',[App\Http\Controllers\DancerController::class, 'show']);
+//Route::get('/base64/{image}',[App\Http\Controllers\DancerController::class, 'base64']);
+
+Route::post('/imagenes64',[App\Http\Controllers\DancerController::class, 'imagenes64']);
+
 
 Route::group(['middleware'=>'auth:sanctum'],function (){
     Route::post('/logout',[App\Http\Controllers\UserController::class, 'logout']);
