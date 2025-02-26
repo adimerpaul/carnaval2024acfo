@@ -8,7 +8,8 @@ export const useCounterStore = defineStore('counter', {
     user: JSON.parse(localStorage.getItem('user') || '{}'),
     dancers: [],
     dancerAll: [],
-    cog: 0
+    cog: 0,
+    loading: false
   }),
   getters: {
     doubleCount: (state) => state.counter * 2

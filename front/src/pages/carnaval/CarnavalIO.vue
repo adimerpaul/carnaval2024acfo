@@ -78,7 +78,7 @@
         </div>
         <br>
         <br>
-        <q-btn class="q-pm-xs" dense size="16px" label="Actualizar" push rounded color="positive" icon="refresh" @click="getDancers" :loading="loading" no-caps/>
+        <q-btn class="q-pm-xs" dense size="16px" label="Actualizar" push rounded color="positive" icon="refresh" @click="getDancers" :loading="$store.loading" no-caps/>
         <br>
         <br>
         <q-btn dense :disable="true" size="12px" :label="`Vistas ${$store.cog}`" color="primary" icon="visibility" no-caps/>
@@ -175,8 +175,7 @@
 import 'leaflet/dist/leaflet.css'
 import 'leaflet-arrowheads'
 import 'leaflet-polylineoffset'
-import { LMap, LTileLayer, LControl, LControlLayers, LPolyline, LMarker, LIcon } from '@vue-leaflet/vue-leaflet'
-import dataLine from 'src/pages/morenadaNoche.json'
+import { LControl, LControlLayers, LIcon, LMap, LMarker, LPolyline, LTileLayer } from '@vue-leaflet/vue-leaflet'
 import { io } from 'socket.io-client'
 import { api, url, urlSocket } from 'boot/axios'
 
@@ -255,6 +254,19 @@ export default {
     // this.postCog()
     // this.getDancers()
     if (this.$store.swSocket) {
+      this.socket.on('danceOne', (data) => {
+        this.$store.loading = false
+        // console.log('danceOne', data)
+        const id = data.id
+        const findDancer = this.$store.dancers.find((d) => parseInt(d.id) === parseInt(id))
+        if (findDancer) {
+          findDancer.lat = data.lat
+          findDancer.lng = data.lng
+        }
+        this.$store.cog = data.cog.value
+        // por socket aumentar el contador de cogs
+        this.socket.emit('cogsMore')
+      })
       this.socket.on('danceIO', (data) => {
         // this.postCog()
         data.forEach((dancer) => {
@@ -266,12 +278,13 @@ export default {
         })
       })
       this.socket.on('danceAll', (data) => {
-        console.log('data', data.cog)
+        // console.log('data', data.cog)
         const dancers = data.dancers
         const cog = data.cog.value
         this.$store.dancers = dancers
         this.dancerAll = dancers
         this.$store.cog = cog
+        this.$store.loading = false
       })
       this.$store.swSocket = false
     }
@@ -280,6 +293,7 @@ export default {
   },
   methods: {
     getDancersIO () {
+      this.$store.loading = true
       this.socket.emit('danceAll')
     },
     lineasGet () {
@@ -304,12 +318,13 @@ export default {
       this.dialogDancer = true
     },
     onDragEnd (dancer, event) {
-      this.loading = true
-      api.post('dancersUpdate', { id: dancer.id, lat: event.target._latlng.lat, lng: event.target._latlng.lng }).then((res) => {
-        console.log('res', res)
-      }).finally(() => {
-        this.loading = false
-      })
+      this.$store.loading = true
+      this.socket.emit('danceOne', { id: dancer.id, lat: event.target._latlng.lat, lng: event.target._latlng.lng })
+      // api.post('dancersUpdate', { id: dancer.id, lat: event.target._latlng.lat, lng: event.target._latlng.lng }).then((res) => {
+      //   console.log('res', res)
+      // }).finally(() => {
+      //   this.loading = false
+      // })
     },
     handleMapClick (event) {
       if (!this.$store.isLogin) {

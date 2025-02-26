@@ -46,19 +46,19 @@ db.connect(err => {
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
-app.get('/dance/:id/:lat/:lng', (req, res) => {
-    const { id, lat, lng } = req.params;
-    io.emit('danceOne', { id, lat, lng });
-    db.query('UPDATE `dancers` SET lat = ?, lng = ? WHERE id = ?', [lat, lng, id], (err, result) => {
-        if (err) {
-            console.error('Error al ejecutar la consulta:', err);
-            res.status(500).send('Error al actualizar la posición del dancer');
-            return;
-        }
-        const Id = parseInt(id);
-        res.json({ id:Id, lat, lng });
-    });
-});
+// app.get('/dance/:id/:lat/:lng', (req, res) => {
+//     const { id, lat, lng } = req.params;
+//     io.emit('danceOne', { id, lat, lng });
+//     db.query('UPDATE `dancers` SET lat = ?, lng = ? WHERE id = ?', [lat, lng, id], (err, result) => {
+//         if (err) {
+//             console.error('Error al ejecutar la consulta:', err);
+//             res.status(500).send('Error al actualizar la posición del dancer');
+//             return;
+//         }
+//         const Id = parseInt(id);
+//         res.json({ id:Id, lat, lng });
+//     });
+// });
 
 io.on("connection", (socket) => {
     console.log('Usuario conectado');
@@ -74,48 +74,92 @@ io.on("connection", (socket) => {
 
     socket.on('danceAll', async (msg) => {
         try {
-            db.query('SELECT * FROM `cogs` WHERE id = 1', async (err, results) => {
+            // actulizar cog aumnetar un cog
+            db.query('UPDATE `cogs` SET value = value + 1 WHERE id = 1', (err, result) => {
                 if (err) {
                     console.error('Error al ejecutar la consulta:', err);
                     return;
                 }
-                const cog = results[0];
-                db.query('SELECT * FROM `dancers`', async (err, results) => {
+                db.query('SELECT * FROM `cogs` WHERE id = 1', async (err, results) => {
                     if (err) {
                         console.error('Error al ejecutar la consulta:', err);
                         return;
                     }
-
-                    const dancers = await Promise.all(results.map(async (row) => {
-                        const imageUrl = `${URL_BACK}${row.imagen}`;
-
-                        let base64Image = null;
-                        try {
-                            const response = await axios.get(imageUrl, {
-                                responseType: 'arraybuffer'
-                            });
-                            base64Image = `${Buffer.from(response.data, 'binary').toString('base64')}`;
-                        } catch (error) {
-                            console.error(`Error al convertir la imagen ${imageUrl}:`, error);
+                    const cog = results[0];
+                    db.query('SELECT * FROM `dancers`', async (err, results) => {
+                        if (err) {
+                            console.error('Error al ejecutar la consulta:', err);
+                            return;
                         }
 
-                        return {
-                            ...row,
-                            image: base64Image,  // Agregar la imagen en base64
-                        };
-                    }));
+                        const dancers = await Promise.all(results.map(async (row) => {
+                            const imageUrl = `${URL_BACK}${row.imagen}`;
 
-                    io.emit('danceAll', { cog, dancers });
+                            let base64Image = null;
+                            try {
+                                const response = await axios.get(imageUrl, {
+                                    responseType: 'arraybuffer'
+                                });
+                                base64Image = `${Buffer.from(response.data, 'binary').toString('base64')}`;
+                            } catch (error) {
+                                console.error(`Error al convertir la imagen ${imageUrl}:`, error);
+                            }
+
+                            return {
+                                ...row,
+                                image: base64Image,  // Agregar la imagen en base64
+                            };
+                        }));
+
+                        io.emit('danceAll', { cog, dancers });
+                    });
+
                 });
-
             });
         } catch (error) {
             console.error('Error al procesar las imágenes:', error);
         }
     });
 
-    socket.on('danceOne', (msg) => {
-        io.emit('danceOne', msg);
+    socket.on('danceOne', (data) => {
+        try {
+            db.query('SELECT * FROM cogs', (err, results) => {
+                if (err) {
+                    console.error('Error al ejecutar la consulta:', err);
+                    return;
+                }
+                const cog = results[0];
+                db.query('UPDATE `dancers` SET lat = ?, lng = ? WHERE id = ?', [data.lat, data.lng, data.id], (err, result) => {
+                    if (err) {
+                        console.error('Error al ejecutar la consulta:', err);
+                        return;
+                    }
+                    io.emit('danceOne', { cog, id: data.id, lat: data.lat, lng: data.lng });
+                });
+            });
+        } catch (error) {
+            console.error('Error al actualizar la posición del dancer:', error);
+        }
+    });
+    socket.on('cogsMore', (data) => {
+        try {
+            db.query('UPDATE `cogs` SET value = value + 1 WHERE id = 1', (err, result) => {
+                if (err) {
+                    console.error('Error al ejecutar la consulta:', err);
+                    return;
+                }
+                // db.query('SELECT * FROM `cogs` WHERE id = 1', (err, results) => {
+                //     if (err) {
+                //         console.error('Error al ejecutar la consulta:', err);
+                //         return;
+                //     }
+                //     const cog = results[0];
+                //     io.emit('cogsMore', { cog });
+                // });
+            });
+        } catch (error) {
+            console.error('Error al actualizar la cantidad de cogs:', error);
+        }
     });
 });
 
