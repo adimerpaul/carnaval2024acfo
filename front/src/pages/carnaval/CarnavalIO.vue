@@ -94,13 +94,12 @@
         <br>
         <br>
         <q-btn dense :disable="true" size="12px" :label="`Vistas ${$store.cog}`" color="primary" icon="visibility" no-caps/>
-        <br><br><br><br><br>
+      </l-control>
+      <l-control position="bottomleft">
+        <q-btn dense color="blue" icon="my_location" label="Mi Ubicación" @click="getUserLocation" no-caps :loading="$store.loading" />
         <br><br><br><br><br>
         <br><br><br><br><br><br>
-        <q-btn dense color="blue" icon="my_location" label="Mi Ubicación" @click="getUserLocation" no-caps :loading="$store.loading" />
       </l-control>
-<!--      <l-control position="bottomleft">-->
-<!--      </l-control>-->
       <l-control position="topright">
         <div>Compartir</div>
         <ShareNetwork

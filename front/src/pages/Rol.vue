@@ -3,7 +3,12 @@
     <div class="row">
       <div class="col-12 col-md-3"></div>
       <div class="col-12 col-md-6">
-        <q-img src="rol2025.jpeg" />
+        <q-img src="rolsabado.jpeg" />
+      </div>
+      <div class="col-12 col-md-3"></div>
+      <div class="col-12 col-md-3"></div>
+      <div class="col-12 col-md-6">
+        <q-img src="roldomingo.jpeg" />
       </div>
       <div class="col-12 col-md-3"></div>
     </div>
