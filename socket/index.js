@@ -11,13 +11,12 @@ const redisClient = redis.createClient();
 
 redisClient.on('error', (err) => console.error('Error en Redis:', err));
 
-const allowedOrigins = ["http://localhost:3013","http://localhost:9000", "https://centenariocentral.com/", "http://192.168.1.3:9000"];
 const io = require("socket.io")(http, {
     cors: {
-        origin: ["http://localhost:3013", "http://localhost:9000", "https://centenariocentral.com", "http://192.168.1.3:9000"],
-        methods: ["GET", "POST"],
-        allowedHeaders: ["Content-Type", "Authorization"], // Ajusta esto según tus necesidades
-        credentials: true
+        origin: "*", // Permite cualquier origen
+        methods: ["GET", "POST"], // Permite solo estos métodos
+        allowedHeaders: ["*"], // Permite cualquier encabezado
+        credentials: true // Permite el envío de cookies y autenticación
     }
 });
 
