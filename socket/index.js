@@ -21,16 +21,16 @@ const io = require("socket.io")(http, {
     }
 });
 
-app.use(cors({
-    origin: function (origin, callback) {
-        if (!origin) return callback(null, true);
-        if (allowedOrigins.indexOf(origin) === -1) {
-            const msg = 'La política CORS no permite el acceso desde el origen: ' + origin;
-            return callback(new Error(msg), false);
-        }
-        return callback(null, true);
-    }
-}));
+// app.use(cors({
+//     origin: function (origin, callback) {
+//         if (!origin) return callback(null, true);
+//         if (allowedOrigins.indexOf(origin) === -1) {
+//             const msg = 'La política CORS no permite el acceso desde el origen: ' + origin;
+//             return callback(new Error(msg), false);
+//         }
+//         return callback(null, true);
+//     }
+// }));
 
 const imageCache = {};
 
