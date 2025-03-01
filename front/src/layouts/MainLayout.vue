@@ -70,7 +70,7 @@
         <q-route-tab name="apoyos" label="Central" :icon="tab === 'apoyos' ? 'favorite' : 'favorite_border'" to="/acfo" />
         <q-route-tab name="roles" label="Rol" :icon="tab === 'roles' ? 'people' : 'o_people'" to="/rol" />
 <!--        Desarrollado por-->
-        <q-route-tab name="about" label="Softwr" :icon="tab === 'about' ? 'code' : 'o_code'" to="/about" />
+<!--        <q-route-tab name="about" label="Softwr" :icon="tab === 'about' ? 'code' : 'o_code'" to="/about" />-->
       </q-tabs>
     </q-footer>
   </q-layout>
