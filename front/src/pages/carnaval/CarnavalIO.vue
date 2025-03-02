@@ -97,7 +97,9 @@
         <br>
         <br>
 <!--        btn descrgaar la veesion movil android ahora-->
-        <q-btn size="12px" push color="black" icon="fa-brands fa-google-play" no-caps href="Cental1.7.6.apk" target="_blank">
+        <q-btn size="12px" push color="black" icon="fa-brands fa-google-play" no-caps
+               :href="`${url}../Central1.7.6.apk`"
+               target="_blank">
           <q-tooltip>
             Descargar la versión móvil
           </q-tooltip>
