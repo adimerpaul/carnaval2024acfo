@@ -94,11 +94,32 @@
         <br>
         <br>
         <q-btn dense :disable="true" size="12px" :label="`Vistas ${$store.cog}`" color="primary" icon="visibility" no-caps/>
+        <br>
+        <br>
+<!--        btn descrgaar la veesion movil android ahora-->
+        <q-btn size="12px" push color="black" icon="fa-brands fa-google-play" no-caps href="Cental1.7.6.apk" target="_blank">
+          <q-tooltip>
+            Descargar la versión móvil
+          </q-tooltip>
+          <div>
+            <div class="row">
+<!--              <div class="col flex flex-center">-->
+<!--                <q-img src="playstore.png" width="30px" />-->
+<!--              </div>-->
+              <div class="col-12">
+                <div style="line-height: 0.9em; padding: 5px; font-size: 12px; color: white;">
+                  <span style="font-size: 10px">Descarga</span> <br>
+                  Versión móvil
+                </div>
+              </div>
+            </div>
+          </div>
+        </q-btn>
       </l-control>
       <l-control position="bottomleft">
         <q-btn dense color="blue" icon="my_location" label="Mi Ubicación" @click="getUserLocation" no-caps :loading="$store.loading" />
         <br><br><br><br><br>
-        <br><br><br><br><br><br>
+        <br><br><br>
       </l-control>
       <l-control position="topright">
         <div>Compartir</div>
