@@ -89,13 +89,13 @@ io.on("connection", (socket) => {
                     console.error('Error al ejecutar la consulta:', err);
                     return;
                 }
-                db.query('SELECT * FROM `cogs` WHERE id = 1', async (err, results) => {
+                db.query('SELECT `value` FROM `cogs` WHERE id = 1', async (err, results) => {
                     if (err) {
                         console.error('Error al ejecutar la consulta:', err);
                         return;
                     }
                     const cog = results[0];
-                    db.query('SELECT * FROM `dancers`', async (err, results) => {
+                    db.query('SELECT `id`,`name`,`imagen`,`lat`,`lng`,`video`,`history` FROM `dancers`', async (err, results) => {
                         if (err) {
                             console.error('Error al ejecutar la consulta:', err);
                             return;
@@ -149,7 +149,7 @@ io.on("connection", (socket) => {
 
     socket.on('danceOne', (data) => {
         try {
-            db.query('SELECT * FROM cogs', (err, results) => {
+            db.query('SELECT value FROM cogs', (err, results) => {
                 if (err) {
                     console.error('Error al ejecutar la consulta:', err);
                     return;
