@@ -1,5 +1,16 @@
 <template>
   <q-page>
+    <div class="custom-message" v-if="showMessage">
+      <div class="message-container">
+        <div>
+        Muchas gracias por disfrutar el <br> Carnaval de Oruro 2025 <br>
+        </div>
+        <div style="font-size: 0.5em;">
+          Le esperamos en la próxima versión <br>
+          Morenada Central
+        </div>
+      </div>
+    </div>
     <l-map
       ref="map"
       v-model:zoom="zoom"
@@ -247,6 +258,7 @@ export default {
   },
   data () {
     return {
+      showMessage: false,
       center: [-17.965, -67.1125],
       userLocation: [0, 0],
       socket: io(urlSocket),
@@ -321,6 +333,7 @@ export default {
         })
       })
       this.socket.on('danceAll', async (data) => {
+        this.showMessage = data.dancers.length === 0
         const dancers = data.dancers
         const cog = data.cog.value
         this.$store.dancers = await this.cacheDancerImages(dancers)
@@ -519,6 +532,25 @@ export default {
 </script>
 
 <style>
+.custom-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-25deg);
+  text-align: center;
+  z-index: 1000;
+}
+
+.message-container {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 15px 20px;
+  border-radius: 10px;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
 .someExtraClass {
   text-align: center;
 }

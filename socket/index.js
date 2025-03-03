@@ -95,7 +95,7 @@ io.on("connection", (socket) => {
                         return;
                     }
                     const cog = results[0];
-                    db.query('SELECT `id`,`name`,`imagen`,`lat`,`lng`,`video`,`history` FROM `dancers`', async (err, results) => {
+                    db.query('SELECT `id`,`name`,`imagen`,`lat`,`lng`,`video`,`history` FROM `dancers` where deleted_at is null ', async (err, results) => {
                         if (err) {
                             console.error('Error al ejecutar la consulta:', err);
                             return;

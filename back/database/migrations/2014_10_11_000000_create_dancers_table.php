@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('history')->nullable()->default('No hay historia');
             $table->integer('positionSaturday')->nullable();
             $table->integer('positionSunday')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
